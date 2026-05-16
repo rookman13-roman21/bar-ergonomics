@@ -1,0 +1,215 @@
+<!--
+  БЛОК 07 — ФИНАЛЬНЫЙ CTA  [id="cta"]
+  Место: последний блок страницы
+  Задача: финальный призыв к действию
+  Содержит: тёмно-зелёная карточка с заголовком, описанием, кнопкой и ссылкой консультации
+  Фон: #FFFFFF снаружи + #417033 внутри (тёмно-зелёная карточка с пятнами)
+-->
+
+<style>
+  .mbs-cta {
+    font-family: 'Mulish', sans-serif;
+    background: #FFFFFF;
+    padding: 90px 20px 106px;
+    color: #1F1F1F;
+  }
+  .mbs-cta * { box-sizing: border-box; }
+
+  .mbs-cta__wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* Тёмно-зелёная карточка с градиентными пятнами */
+  .mbs-cta__card {
+    border-radius: 28px;
+    padding: 72px 80px;
+    background:
+      radial-gradient(circle at 10% 90%, rgba(182,216,171,0.45) 0, rgba(182,216,171,0.45) 22%, transparent 23%),
+      radial-gradient(circle at 90% 10%, rgba(231,242,227,0.70) 0, rgba(231,242,227,0.70) 18%, transparent 19%),
+      #417033;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px 80px;
+    align-items: center;
+  }
+
+  .mbs-cta__label {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 18px;
+    padding: 7px 16px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.18);
+    color: #FFFFFF;
+    font-size: 13px;
+    line-height: 1;
+    font-weight: 900;
+  }
+
+  .mbs-cta__title {
+    margin: 0 0 14px;
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+    color: #FFFFFF;
+  }
+
+  .mbs-cta__text {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.78);
+    max-width: 480px;
+  }
+
+  /* Правая: кнопка + ссылка */
+  .mbs-cta__right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    min-width: 240px;
+  }
+
+  .mbs-cta__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 62px;
+    width: 100%;
+    padding: 0 36px;
+    border-radius: 999px;
+    background: #CC2841;
+    color: #fff !important;
+    text-decoration: none !important;
+    font-family: 'Mulish', sans-serif;
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 1;
+    transition: background 0.2s, transform 0.2s;
+    cursor: pointer;
+    border: none;
+    white-space: nowrap;
+  }
+  .mbs-cta__btn:hover {
+    background: #D83D54;
+    transform: translateY(-1px);
+    color: #fff !important;
+  }
+
+  .mbs-cta__consult {
+    margin-top: 14px;
+    color: rgba(255, 255, 255, 0.70) !important;
+    text-decoration: none !important;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    transition: color 0.2s;
+    cursor: pointer;
+    line-height: 1.4;
+  }
+  .mbs-cta__consult:hover {
+    color: #FFFFFF !important;
+    text-decoration: underline !important;
+  }
+
+  /* Доверие: 3 маленьких бейджа под карточкой */
+  .mbs-cta__trust {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+
+  .mbs-cta__trust-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #555555;
+  }
+
+  .mbs-cta__trust-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #B6D8AB;
+    flex-shrink: 0;
+  }
+
+  /* ─── Адаптив ─── */
+  @media (max-width: 900px) {
+    .mbs-cta__card {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 48px 40px;
+    }
+    .mbs-cta__right { align-items: stretch; }
+    .mbs-cta__title { font-size: 32px; }
+  }
+
+  @media (max-width: 820px) {
+    .mbs-cta { padding: 64px 14px 76px; }
+    .mbs-cta__card { padding: 40px 24px; }
+    .mbs-cta__title { font-size: 26px; }
+    .mbs-cta__text { font-size: 15px; }
+    .mbs-cta__trust { gap: 16px; }
+  }
+</style>
+
+<section class="mbs-cta" id="cta">
+  <div class="mbs-cta__wrap">
+
+    <div class="mbs-cta__card">
+
+      <div class="mbs-cta__left">
+        <span class="mbs-cta__label">Начнём работу</span>
+        <h2 class="mbs-cta__title">Спроектируем бар,<br>который будет работать на вас</h2>
+        <p class="mbs-cta__text">Оставьте заявку — обсудим ваш проект, ответим на вопросы и назовём точную стоимость. Это бесплатно и ни к чему не обязывает.</p>
+      </div>
+
+      <div class="mbs-cta__right">
+        <a href="#consalt" class="mbs-cta__btn">Оставить заявку</a>
+        <a href="https://barengineering.bitrix24site.ru/Bar/" target="_blank" class="mbs-cta__consult">Или заполнить форму →</a>
+      </div>
+
+    </div>
+
+    <!-- Доверительные сигналы -->
+    <div class="mbs-cta__trust">
+      <span class="mbs-cta__trust-item"><span class="mbs-cta__trust-dot"></span>15+ лет опыта в индустрии</span>
+      <span class="mbs-cta__trust-item"><span class="mbs-cta__trust-dot"></span>Удалённая работа по всей России</span>
+      <span class="mbs-cta__trust-item"><span class="mbs-cta__trust-dot"></span>Результат за 10 рабочих дней</span>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function(){
+  if(!window.IntersectionObserver)return;
+  if(!document.getElementById('mbs-reveal-style')){
+    var s=document.createElement('style');s.id='mbs-reveal-style';
+    s.textContent='.mbs-fade-in{opacity:0;transform:translateY(24px);transition:opacity .55s ease,transform .55s ease}.mbs-fade-in.mbs-visible{opacity:1;transform:none}';
+    document.head.appendChild(s);
+  }
+  var section=document.getElementById('cta');if(!section)return;
+  var els=section.querySelectorAll('.mbs-cta__card,.mbs-cta__trust');
+  els.forEach(function(el,i){el.classList.add('mbs-fade-in');el.style.transitionDelay=Math.min(i*0.12,0.3)+'s';});
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('mbs-visible');
+        e.target.addEventListener('transitionend',function c(){e.target.style.transitionDelay='0s';e.target.removeEventListener('transitionend',c);});
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:0.08});
+  els.forEach(function(el){io.observe(el);});
+})();
+</script>

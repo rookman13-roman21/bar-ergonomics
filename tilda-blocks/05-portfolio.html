@@ -1,0 +1,340 @@
+<!--
+  БЛОК 05 — КЕЙСЫ / ПОРТФОЛИО  [id="cases"]
+  Место: после «Как проходит работа», перед ценой
+  Задача: социальное доказательство — реальные проекты с видео
+  Содержит: 4 карточки 2×2 с превью RuTube, inline embed при клике
+  Фон: #F5F5F5
+-->
+
+<style>
+  .mbs-cases {
+    font-family: 'Mulish', sans-serif;
+    background: #F5F5F5;
+    padding: 90px 20px;
+    color: #1F1F1F;
+  }
+  .mbs-cases * { box-sizing: border-box; }
+  .mbs-cases__wrap { max-width: 1100px; margin: 0 auto; }
+  .mbs-cases__header {
+    margin-bottom: 40px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .mbs-cases__label {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 7px 16px;
+    border-radius: 999px;
+    background: rgba(231, 242, 227, 0.95);
+    color: #417033;
+    font-size: 13px;
+    font-weight: 900;
+  }
+  .mbs-cases__title {
+    margin: 0 0 8px;
+    font-size: 34px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: #1F1F1F;
+  }
+  .mbs-cases__subtitle {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
+    color: #555;
+  }
+  .mbs-cases__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    border: 2px solid #417033;
+    color: #417033 !important;
+    text-decoration: none !important;
+    font-size: 13px;
+    font-weight: 800;
+    white-space: nowrap;
+    transition: background 0.2s, color 0.2s;
+    flex-shrink: 0;
+    align-self: flex-end;
+  }
+  .mbs-cases__more:hover { background: #417033; color: #fff !important; }
+  .mbs-cases__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .mbs-cases__card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.25s, transform 0.25s;
+  }
+  .mbs-cases__card:hover { transform: translateY(-4px); box-shadow: 0 16px 44px rgba(31,31,31,0.10); }
+  .mbs-cases__thumb {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: linear-gradient(135deg, #d4e8cc 0%, #b6d8ab 100%);
+    cursor: pointer;
+  }
+  .mbs-cases__thumb-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    z-index: 0;
+  }
+  .mbs-cases__preview {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+    background: rgba(0,0,0,0.18);
+    z-index: 1;
+  }
+  .mbs-cases__play-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.93);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+    transition: transform 0.2s, background 0.2s;
+    color: #CC2841;
+    flex-shrink: 0;
+  }
+  .mbs-cases__thumb:hover .mbs-cases__play-btn { transform: scale(1.1); background: #fff; }
+  .mbs-cases__play-btn svg { width: 18px; height: 18px; fill: currentColor; margin-left: 3px; }
+  .mbs-cases__type-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(6px);
+    border-radius: 7px;
+    padding: 4px 9px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #1F1F1F;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    z-index: 2;
+  }
+  .mbs-cases__iframe-wrap {
+    position: absolute;
+    inset: 0;
+    display: none;
+    z-index: 3;
+  }
+  .mbs-cases__iframe-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+  .mbs-cases__iframe-wrap.active { display: block; }
+  .mbs-cases__preview.hidden { opacity: 0; pointer-events: none; }
+  .mbs-cases__iframe-wrap.active ~ .mbs-cases__thumb-img { display: none; }
+  .mbs-cases__body {
+    padding: 16px 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+  .mbs-cases__card-title {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: #1F1F1F;
+  }
+  .mbs-cases__card-desc {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.55;
+    color: #666;
+    flex: 1;
+  }
+  .mbs-cases__results {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .mbs-cases__result {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #E7F2E3;
+    border-radius: 6px;
+    padding: 4px 9px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #417033;
+  }
+  .mbs-cases__result-dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: #4F883E;
+    flex-shrink: 0;
+  }
+  @media (max-width: 820px) {
+    .mbs-cases { padding: 64px 14px; }
+    .mbs-cases__title { font-size: 28px; }
+    .mbs-cases__header { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 540px) {
+    .mbs-cases__grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<section class="mbs-cases" id="cases">
+  <div class="mbs-cases__wrap">
+    <div class="mbs-cases__header">
+      <div class="mbs-cases__header-left">
+        <span class="mbs-cases__label">Наши проекты</span>
+        <h2 class="mbs-cases__title">Примеры работ по проектированию бара</h2>
+        <p class="mbs-cases__subtitle">Нажмите на карточку — видео откроется прямо здесь</p>
+      </div>
+      <a href="https://rutube.ru/plst/881938" target="_blank" rel="noopener" class="mbs-cases__more">
+        Все видео на RuTube
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+    <div class="mbs-cases__grid">
+
+      <div class="mbs-cases__card">
+        <div class="mbs-cases__thumb" data-embed="https://rutube.ru/play/embed/9daf17c8342a0330626bda50641b2f45/">
+          <img class="mbs-cases__thumb-img" src="https://pic.rtbcdn.ru/video/2025-10-06/59/5b/595ba34f2a6949e6f9b522e21257112a.jpg?size=l" alt="Кейс: проектирование бара Пекарня адвоката — эргономика кофейни, Москва" loading="lazy">
+          <div class="mbs-cases__preview">
+            <div class="mbs-cases__play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+          </div>
+          <span class="mbs-cases__type-badge">Пекарня</span>
+          <div class="mbs-cases__iframe-wrap"></div>
+        </div>
+        <div class="mbs-cases__body">
+          <h3 class="mbs-cases__card-title">Пекарня адвоката — Москва, 10 м²</h3>
+          <p class="mbs-cases__card-desc">Компактная пекарня с кофейным баром. Разработали эргономичную расстановку, подобрали технику и подготовили полный пакет документов.</p>
+          <div class="mbs-cases__results">
+            <span class="mbs-cases__result"><span class="mbs-cases__result-dot"></span>10 м²</span>
+            <span class="mbs-cases__result"><span class="mbs-cases__result-dot"></span>Москва</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mbs-cases__card">
+        <div class="mbs-cases__thumb" data-embed="https://rutube.ru/play/embed/24bf2126155daf2187760ca2f4e14dd8/">
+          <img class="mbs-cases__thumb-img" src="https://pic.rtbcdn.ru/video/2025-10-06/1d/e9/1de9f4382f53a8640984cfc3715adba7.jpg?size=l" alt="Кейс: планировка бара RedBeans — эргономика кофейни, Москва" loading="lazy">
+          <div class="mbs-cases__preview">
+            <div class="mbs-cases__play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+          </div>
+          <span class="mbs-cases__type-badge">Кофейня</span>
+          <div class="mbs-cases__iframe-wrap"></div>
+        </div>
+        <div class="mbs-cases__body">
+          <h3 class="mbs-cases__card-title">RedBeans — Москва, 8 м²</h3>
+          <p class="mbs-cases__card-desc">Небольшая кофейня. Оптимизировали рабочее пространство, подобрали оборудование под меню и подготовили техдокументацию для строителей.</p>
+          <div class="mbs-cases__results">
+            <span class="mbs-cases__result"><span class="mbs-cases__result-dot"></span>8 м²</span>
+            <span class="mbs-cases__result"><span class="mbs-cases__result-dot"></span>Москва</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mbs-cases__card">
+        <div class="mbs-cases__thumb" data-embed="https://rutube.ru/play/embed/3a1da106fceb6a40fa7c94155c6ceef4/">
+          <img class="mbs-cases__thumb-img" src="https://pic.rtbcdn.ru/video/2025-10-03/fb/c5/fbc5f81f80355a33fe867b3bb619138a.jpg?size=l" alt="Кейс: проектирование бара BOCCA — эргономика кофейни, Москва" loading="lazy">
+          <div class="mbs-cases__preview">
+            <div class="mbs-cases__play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+          </div>
+          <span class="mbs-cases__type-badge">Кафе при фитнес-клубе</span>
+          <div class="mbs-cases__iframe-wrap"></div>
+        </div>
+        <div class="mbs-cases__body">
+          <h3 class="mbs-cases__card-title">BOCCA — Москва, 15 м²</h3>
+          <p class="mbs-cases__card-desc">Кафе полного цикла при фитнес-клубе. Спроектировали барную станцию с учётом кухни, специфики аудитории и высоких нагрузок.</p>
+          <div class="mbs-cases__results">
+            <span class="mbs-cases__result"><span class="mbs-cases__result-dot"></span>15 м²</span>
+            <span class="mbs-cases__result"><span class="mbs-cases__result-dot"></span>Москва</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mbs-cases__card">
+        <div class="mbs-cases__thumb" data-embed="https://rutube.ru/play/embed/4a6aa3a3873ff809ed71a778d31a1da1/">
+          <img class="mbs-cases__thumb-img" src="https://pic.rtbcdn.ru/video/2025-03-04/c8/ed/c8ed725661a017ac4cff19ab3747d3c9.jpg?size=l" alt="Кейс: планировка бара Куда — эргономика кофейни, Москва" loading="lazy">
+          <div class="mbs-cases__preview">
+            <div class="mbs-cases__play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+          </div>
+          <span class="mbs-cases__type-badge">Кофейня</span>
+          <div class="mbs-cases__iframe-wrap"></div>
+        </div>
+        <div class="mbs-cases__body">
+          <h3 class="mbs-cases__card-title">Куда — Москва, 10 м²</h3>
+          <p class="mbs-cases__card-desc">Компактная кофейня. Разработали расстановку, схему розеток и ТЗ для строителей — проект под ключ до начала ремонта.</p>
+          <div class="mbs-cases__results">
+            <span class="mbs-cases__result"><span class="mbs-cases__result-dot"></span>10 м²</span>
+            <span class="mbs-cases__result"><span class="mbs-cases__result-dot"></span>Москва</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  document.querySelectorAll('.mbs-cases__thumb[data-embed]').forEach(function(thumb) {
+    thumb.addEventListener('click', function() {
+      var preview = thumb.querySelector('.mbs-cases__preview');
+      var iframeWrap = thumb.querySelector('.mbs-cases__iframe-wrap');
+      if (iframeWrap.classList.contains('active')) return;
+      var iframe = document.createElement('iframe');
+      iframe.src = thumb.getAttribute('data-embed') + '?autoplay=1';
+      iframe.allow = 'autoplay; fullscreen';
+      iframe.allowFullscreen = true;
+      iframeWrap.appendChild(iframe);
+      iframeWrap.classList.add('active');
+      preview.classList.add('hidden');
+    });
+  });
+  if(!window.IntersectionObserver)return;
+  if(!document.getElementById('mbs-reveal-style')){
+    var s=document.createElement('style');s.id='mbs-reveal-style';
+    s.textContent='.mbs-fade-in{opacity:0;transform:translateY(24px);transition:opacity .55s ease,transform .55s ease}.mbs-fade-in.mbs-visible{opacity:1;transform:none}';
+    document.head.appendChild(s);
+  }
+  var section=document.getElementById('cases');if(!section)return;
+  var els=section.querySelectorAll('.mbs-cases__header,.mbs-cases__card');
+  els.forEach(function(el,i){el.classList.add('mbs-fade-in');el.style.transitionDelay=Math.min(i*0.1,0.4)+'s';});
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('mbs-visible');
+        e.target.addEventListener('transitionend',function c(){e.target.style.transitionDelay='0s';e.target.removeEventListener('transitionend',c);});
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:0.08});
+  els.forEach(function(el){io.observe(el);});
+})();
+</script>

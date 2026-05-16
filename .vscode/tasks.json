@@ -1,0 +1,70 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "deploy-bar-ergonomics-seo",
+			"type": "shell",
+			"command": "/opt/homebrew/bin/vercel --prod --yes --cwd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics"
+		},
+		{
+			"label": "deploy-bar-ergonomics-seo",
+			"type": "shell",
+			"command": "/opt/homebrew/bin/vercel --prod --yes --cwd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics 2>&1 | tail -5"
+		},
+		{
+			"label": "deploy-bar-ergonomics-fix",
+			"type": "shell",
+			"command": "/opt/homebrew/bin/vercel --prod --yes --cwd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics 2>&1 | tail -5"
+		},
+		{
+			"label": "deploy-bar-fix2",
+			"type": "shell",
+			"command": "/opt/homebrew/bin/vercel --prod --yes --cwd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics"
+		},
+		{
+			"label": "rename-tilda-blocks",
+			"type": "shell",
+			"command": "cd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics/tilda-blocks && mv portfolio.html 05-portfolio.html && mv 05-price.html 06-price.html && mv 06-faq.html 07-faq.html && mv 07-final-cta.html 08-final-cta.html && echo DONE"
+		},
+		{
+			"label": "deploy-bar-renamed",
+			"type": "shell",
+			"command": "/opt/homebrew/bin/vercel --prod --yes --cwd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics 2>&1 | tail -4"
+		},
+		{
+			"label": "deploy-bar-final",
+			"type": "shell",
+			"command": "/opt/homebrew/bin/vercel --prod --yes --cwd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics"
+		},
+		{
+			"label": "deploy-bar-icons-fix",
+			"type": "shell",
+			"command": "/opt/homebrew/bin/vercel --prod --yes --cwd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics"
+		},
+		{
+			"label": "deploy-bar-fixes",
+			"type": "shell",
+			"command": "/opt/homebrew/bin/vercel --prod --yes --cwd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics"
+		},
+		{
+			"label": "deploy-bar-faq-title",
+			"type": "shell",
+			"command": "/opt/homebrew/bin/vercel --prod --yes --cwd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics"
+		},
+		{
+			"label": "check-git-bar",
+			"type": "shell",
+			"command": "cd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics && git log --oneline -5 2>&1 || echo NO_GIT"
+		},
+		{
+			"label": "git-commit-bar",
+			"type": "shell",
+			"command": "cd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics && git config user.email 'rookman13@github.com' && git config user.name 'rookman13-roman21' && git add -A && git commit -m 'feat: tilda-blocks bar ergonomics page — all 8 blocks, SEO, fixes' 2>&1"
+		},
+		{
+			"label": "git-init-bar",
+			"type": "shell",
+			"command": "cd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics && git init && git config user.email 'rookman13@github.com' && git config user.name 'rookman13-roman21' && git add -A && git status 2>&1 | tail -10"
+		}
+	]
+}

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Google Sans', Arial, sans-serif;
+    font-size: 13px;
+    color: #202124;
+    background: #fff;
+    padding: 16px;
+    line-height: 1.5;
+  }
+
+  h2 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a73e8;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .field { margin-bottom: 12px; }
+
+  label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #5f6368;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 4px;
+  }
+
+  select {
+    width: 100%;
+    padding: 7px 10px;
+    border: 1px solid #dadce0;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #202124;
+    background: #fff;
+    cursor: pointer;
+    appearance: auto;
+  }
+  select:focus {
+    outline: none;
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 2px rgba(26,115,232,0.15);
+  }
+
+  /* Карточка предпросмотра */
+  .preview {
+    background: #f8f9fa;
+    border: 1px solid #e8eaed;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 12px 0;
+    min-height: 80px;
+  }
+  .preview-empty {
+    color: #9aa0a6;
+    font-style: italic;
+    font-size: 12px;
+    line-height: 2;
+  }
+  .preview-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 5px;
+    font-size: 12px;
+  }
+  .preview-key {
+    color: #5f6368;
+    min-width: 110px;
+    flex-shrink: 0;
+  }
+  .preview-val {
+    color: #202124;
+    font-weight: 500;
+  }
+  .preview-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a73e8;
+    margin-bottom: 8px;
+    word-break: break-word;
+  }
+
+  /* Кнопка */
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 10px 14px;
+    background: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: background 0.15s;
+  }
+  .btn:hover:not(:disabled) { background: #1557b0; }
+  .btn:disabled {
+    background: #e8eaed;
+    color: #9aa0a6;
+    cursor: not-allowed;
+  }
+
+  /* Сообщения */
+  .msg {
+    border-radius: 6px;
+    padding: 9px 12px;
+    font-size: 12px;
+    margin-top: 10px;
+    display: none;
+  }
+  .msg-ok  { background: #e8f5e9; color: #1b5e20; }
+  .msg-err { background: #fce8e6; color: #b71c1c; }
+
+  .divider {
+    border: none;
+    border-top: 1px solid #e8eaed;
+    margin: 14px 0;
+  }
+
+  .hint {
+    font-size: 11px;
+    color: #9aa0a6;
+    margin-top: 6px;
+  }
+
+  .spin { display: inline-block; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<h2>➕ Добавить оборудование</h2>
+
+<div class="field">
+  <label>Строка (позиция)</label>
+  <select id="rowSelect"><option value="">⏳ Загрузка...</option></select>
+  <div class="hint">Выберите строку, в которую добавить оборудование</div>
+</div>
+
+<hr class="divider">
+
+<div class="field">
+  <label>Категория</label>
+  <select id="catSelect" onchange="onCategoryChange()">
+    <option value="">⏳ Загрузка...</option>
+  </select>
+</div>
+
+<div class="field">
+  <label>Модель оборудования</label>
+  <select id="modelSelect" onchange="onModelChange()">
+    <option value="">— Сначала выберите категорию —</option>
+  </select>
+</div>
+
+<!-- Предпросмотр характеристик -->
+<div class="preview" id="preview">
+  <div class="preview-empty">Выберите оборудование для просмотра характеристик</div>
+</div>
+
+<button class="btn" id="addBtn" onclick="addEquipment()" disabled>
+  Добавить в таблицу
+</button>
+
+<div class="msg msg-ok"  id="msgOk"></div>
+<div class="msg msg-err" id="msgErr"></div>
+
+<script>
+  var allEquipment = [];
+
+  window.onload = function () {
+    loadRows();
+    loadCategories();
+  };
+
+  /* ── Загрузка строк ── */
+  function loadRows() {
+    google.script.run
+      .withSuccessHandler(function (rows) {
+        var sel = document.getElementById('rowSelect');
+        sel.innerHTML = '';
+        rows.forEach(function (r) {
+          var opt = document.createElement('option');
+          opt.value = r.row;
+          opt.text  = '# ' + r.num + (r.name ? '  —  ' + truncate(r.name, 28) : '  (пусто)');
+          sel.appendChild(opt);
+        });
+      })
+      .withFailureHandler(function () {
+        document.getElementById('rowSelect').innerHTML =
+          '<option value="">Ошибка загрузки</option>';
+      })
+      .getEquipmentRows();
+  }
+
+  /* ── Загрузка категорий ── */
+  function loadCategories() {
+    google.script.run
+      .withSuccessHandler(function (cats) {
+        var sel = document.getElementById('catSelect');
+        sel.innerHTML = '';
+        cats.forEach(function (c) {
+          var opt = document.createElement('option');
+          opt.value = c;
+          opt.text  = c;
+          sel.appendChild(opt);
+        });
+        onCategoryChange();
+      })
+      .withFailureHandler(function () {
+        document.getElementById('catSelect').innerHTML =
+          '<option value="">Ошибка загрузки</option>';
+      })
+      .getCategories();
+  }
+
+  /* ── Смена категории → загрузка оборудования ── */
+  function onCategoryChange() {
+    var cat = document.getElementById('catSelect').value;
+    var mSel = document.getElementById('modelSelect');
+    mSel.innerHTML = '<option value="">⏳ Загрузка...</option>';
+    setPreviewEmpty();
+    disableAdd();
+
+    google.script.run
+      .withSuccessHandler(function (equipment) {
+        allEquipment = equipment;
+        var count = equipment.filter(function(e) { return e.producer; }).length;
+        mSel.innerHTML = '<option value="">— Выберите модель (' + count + ') —</option>';  // #2
+        equipment.forEach(function (eq) {
+          if (!eq.producer) return;
+          var opt = document.createElement('option');
+          opt.value = eq.producer;
+          opt.text  = eq.producer;
+          mSel.appendChild(opt);
+        });
+      })
+      .withFailureHandler(function () {
+        mSel.innerHTML = '<option value="">Ошибка загрузки</option>';
+      })
+      .getEquipmentByCategory(cat);
+  }
+
+  /* ── Выбор модели → предпросмотр ── */
+  function onModelChange() {
+    hideMessages();
+    var name = document.getElementById('modelSelect').value;
+    if (!name) { setPreviewEmpty(); disableAdd(); return; }
+
+    var eq = allEquipment.find(function (e) { return e.producer === name; });
+    if (!eq)   { setPreviewEmpty(); disableAdd(); return; }
+
+    var fields = [
+      ['Категория',              eq.category],
+      ['Размеры Ш×Г×В',          eq.dimensions],
+      ['Потребление кВт',         eq.kw],
+      ['Подключение к воде',      eq.water],
+      ['Цена',                    eq.price ? formatPrice(eq.price) : ''],  // #4
+    ];
+
+    var html = '<div class="preview-title">' + esc(eq.producer) + '</div>';
+    fields.forEach(function (f) {
+      if (f[1]) {
+        html += '<div class="preview-row">'
+          + '<span class="preview-key">' + esc(f[0]) + '</span>'
+          + '<span class="preview-val">' + esc(String(f[1])) + '</span>'
+          + '</div>';
+      }
+    });
+    // #1: исправленная проверка — сравниваем по eq.producer, а не eq.category
+    var emptyHtml = '<div class="preview-title">' + esc(eq.producer) + '</div>';
+    if (html === emptyHtml) {
+      html += '<div class="preview-empty" style="margin-top:6px">Нет данных о характеристиках</div>';
+    }
+
+    document.getElementById('preview').innerHTML = html;
+    document.getElementById('addBtn').disabled = false;
+  }
+
+  /* ── Кнопка «Добавить» ── */
+  function addEquipment() {
+    var rowNum = parseInt(document.getElementById('rowSelect').value, 10);
+    var name   = document.getElementById('modelSelect').value;
+    if (!rowNum || !name) return;
+
+    hideMessages();
+    var btn = document.getElementById('addBtn');
+    btn.disabled    = true;
+    btn.textContent = '⏳ Добавляю...';
+
+    google.script.run
+      .withSuccessHandler(function (result) {
+        btn.textContent = 'Добавить в таблицу';
+        if (result.success) {
+          show('msgOk', '✅ «' + result.name + '» добавлено в строку ' + result.row);
+          loadRows();
+          // #3: сбрасываем выбор модели и предпросмотр
+          document.getElementById('modelSelect').value = '';
+          setPreviewEmpty();
+          disableAdd();
+        } else {
+          show('msgErr', '❌ ' + result.error);
+          btn.disabled = false;
+        }
+      })
+      .withFailureHandler(function (err) {
+        btn.textContent = 'Добавить в таблицу';
+        btn.disabled    = false;
+        show('msgErr', '❌ Ошибка: ' + (err.message || err));
+      })
+      .addEquipmentToRow(rowNum, name);
+  }
+
+  /* ── Утилиты ── */
+  function setPreviewEmpty() {
+    document.getElementById('preview').innerHTML =
+      '<div class="preview-empty">Выберите оборудование для просмотра характеристик</div>';
+  }
+  function disableAdd()  { document.getElementById('addBtn').disabled = true; }
+  function hideMessages() {
+    document.getElementById('msgOk').style.display  = 'none';
+    document.getElementById('msgErr').style.display = 'none';
+  }
+  function show(id, text) {
+    var el = document.getElementById(id);
+    el.textContent  = text;
+    el.style.display = 'block';
+  }
+  function esc(s)         { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function truncate(s, n) { return s.length > n ? s.slice(0, n) + '…' : s; }
+  // #4: форматируем цену с разрядами и символом ₽
+  function formatPrice(val) {
+    var n = parseFloat(val);
+    if (isNaN(n)) return String(val);
+    return n.toLocaleString('ru-RU') + ' ₽';
+  }
+</script>
+</body>
+</html>

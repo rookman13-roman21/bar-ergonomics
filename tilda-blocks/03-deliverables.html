@@ -1,0 +1,205 @@
+<!--
+  БЛОК 03 — ЧТО ВЫ ПОЛУЧИТЕ  [id="deliverables"]
+  Место: после преимуществ
+  Задача: конкретизировать результат — что именно передаётся заказчику
+  Содержит: 6 карточек с иконкой, заголовком и описанием
+  Фон: #FFFFFF
+-->
+
+<style>
+  .mbs-del {
+    font-family: 'Mulish', sans-serif;
+    background: #FFFFFF;
+    padding: 90px 20px;
+    color: #1F1F1F;
+  }
+  .mbs-del * { box-sizing: border-box; }
+
+  .mbs-del__wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .mbs-del__header {
+    margin-bottom: 44px;
+  }
+
+  .mbs-del__label {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 14px;
+    padding: 7px 16px;
+    border-radius: 999px;
+    background: rgba(231, 242, 227, 0.95);
+    color: #417033;
+    font-size: 13px;
+    line-height: 1;
+    font-weight: 900;
+  }
+
+  .mbs-del__title {
+    margin: 0 0 10px;
+    font-size: 34px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: #1F1F1F;
+  }
+
+  .mbs-del__subtitle {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #555555;
+    max-width: 540px;
+  }
+
+  /* Сетка 3 × 2 */
+  .mbs-del__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .mbs-del__card {
+    background: #F5F5F5;
+    border-radius: 20px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: box-shadow 0.2s;
+  }
+  .mbs-del__card:hover {
+    box-shadow: 0 8px 32px rgba(31,31,31,0.08);
+  }
+
+  .mbs-del__card--green {
+    background: #E7F2E3;
+    border: 2px solid #B6D8AB;
+  }
+  .mbs-del__card--green:hover {
+    background: #D4ECCC;
+    border-color: #4F883E;
+    box-shadow: 0 8px 32px rgba(65,112,51,0.16);
+  }
+
+
+
+  .mbs-del__card-num {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    color: #B6D8AB;
+    text-transform: uppercase;
+  }
+  .mbs-del__card--green .mbs-del__card-num {
+    color: #4F883E;
+  }
+
+  .mbs-del__card-title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: #1F1F1F;
+  }
+
+  .mbs-del__card-text {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.55;
+    color: #555555;
+    flex: 1;
+  }
+
+  /* ─── Адаптив ─── */
+  @media (max-width: 820px) {
+    .mbs-del { padding: 64px 14px; }
+    .mbs-del__title { font-size: 26px; }
+    .mbs-del__grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 520px) {
+    .mbs-del__grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<section class="mbs-del" id="deliverables">
+  <div class="mbs-del__wrap">
+
+    <div class="mbs-del__header">
+      <span class="mbs-del__label">Результат работы</span>
+      <h2 class="mbs-del__title">Что входит в проект эргономики бара</h2>
+      <p class="mbs-del__subtitle">Полный комплект документов, который можно сразу передать строителям и поставщикам оборудования</p>
+    </div>
+
+    <div class="mbs-del__grid">
+
+      <div class="mbs-del__card mbs-del__card--green">
+        <span class="mbs-del__card-num">01</span>
+        <h3 class="mbs-del__card-title">Список оборудования</h3>
+        <p class="mbs-del__card-text">Готовый Excel-файл с подборкой всего оборудования, ссылками на магазины и актуальными ценами. Понятно что, где и почём купить.</p>
+      </div>
+
+      <div class="mbs-del__card">
+        <span class="mbs-del__card-num">02</span>
+        <h3 class="mbs-del__card-title">План расстановки</h3>
+        <p class="mbs-del__card-text">Схема расположения оборудования за баром с размерами: что стоит слева, что справа, где рабочая зона, где зона раздачи — всё логично и удобно.</p>
+      </div>
+
+      <div class="mbs-del__card">
+        <span class="mbs-del__card-num">03</span>
+        <h3 class="mbs-del__card-title">Схема розеток</h3>
+        <p class="mbs-del__card-text">Количество розеток, места размещения и высота установки. Электрик уже сам сделает инженерную схему на основе переданного списка оборудования.</p>
+      </div>
+
+      <div class="mbs-del__card">
+        <span class="mbs-del__card-num">04</span>
+        <h3 class="mbs-del__card-title">Техническое задание</h3>
+        <p class="mbs-del__card-text">Чертёж бара со всеми размерами и узлами. Мебельщик берёт его за основу и делает свой рабочий чертёж — ничего не нужно объяснять на пальцах.</p>
+      </div>
+
+      <div class="mbs-del__card">
+        <span class="mbs-del__card-num">05</span>
+        <h3 class="mbs-del__card-title">Консультации по проекту</h3>
+        <p class="mbs-del__card-text">Поддержка в мессенджере на всём этапе реализации: ответим на вопросы по закупке, монтажу и расстановке оборудования.</p>
+      </div>
+
+      <div class="mbs-del__card mbs-del__card--green">
+        <span class="mbs-del__card-num">Бонус</span>
+        <h3 class="mbs-del__card-title">Чек-лист запуска бара</h3>
+        <p class="mbs-del__card-text">Бонус: простой список, который поможет правильно запустить бар и ничего не упустить при открытии.</p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function(){
+  if(!window.IntersectionObserver)return;
+  if(!document.getElementById('mbs-reveal-style')){
+    var s=document.createElement('style');s.id='mbs-reveal-style';
+    s.textContent='.mbs-fade-in{opacity:0;transform:translateY(24px);transition:opacity .55s ease,transform .55s ease}.mbs-fade-in.mbs-visible{opacity:1;transform:none}';
+    document.head.appendChild(s);
+  }
+  var section=document.getElementById('deliverables');if(!section)return;
+  var els=section.querySelectorAll('.mbs-del__header,.mbs-del__card');
+  els.forEach(function(el,i){el.classList.add('mbs-fade-in');el.style.transitionDelay=Math.min(i*0.09,0.45)+'s';});
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('mbs-visible');
+        e.target.addEventListener('transitionend',function c(){e.target.style.transitionDelay='0s';e.target.removeEventListener('transitionend',c);});
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:0.08});
+  els.forEach(function(el){io.observe(el);});
+})();
+</script>

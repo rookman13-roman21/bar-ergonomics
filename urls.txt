@@ -1,0 +1,8 @@
+# Сюда добавляйте ссылки на оборудование — по одной на строке.
+# Строки начинающиеся с # игнорируются.
+# Запуск: .venv/bin/python3 scripts/add_from_url.py --file urls.txt
+
+# Примеры:
+# https://entero.ru/item/122375
+# https://barista.ru/product/...
+https://entero.ru/item/122378

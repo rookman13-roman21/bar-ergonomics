@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Проектирование и эргономика бара — Московская школа бариста</title>
+  <meta name="description" content="Разработаем планировку кофейни, пекарни или ресторанного бара: расстановка оборудования, схема розеток, ТЗ для строителей. Работаем по всей России удалённо. От 40 000 ₽, срок до 10 дней. МШБ — 15 лет опыта.">
+  <meta name="keywords" content="эргономика бара, проектирование кофейни, планировка кофейного бара, открытие кофейни, барный инжиниринг, оборудование кофейни">
+  <link rel="canonical" href="https://baristaschool.ru/bar_engineering">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://baristaschool.ru/bar_engineering">
+  <meta property="og:title" content="Проектирование и эргономика бара — МШБ">
+  <meta property="og:description" content="Разработаем планировку кофейни или бара под ключ: оборудование, розетки, ТЗ для строителей. От 40 000 ₽, до 10 дней. Московская школа бариста — 15 лет опыта.">
+  <meta property="og:image" content="https://static.tildacdn.com/tild3861-3163-4135-b066-633337643365/d628e548a384d46b26d0.jpg">
+  <meta property="og:locale" content="ru_RU">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Проектирование и эргономика бара — МШБ">
+  <meta name="twitter:description" content="Планировка кофейни и бара под ключ. От 40 000 ₽, до 10 дней. МШБ — 15 лет опыта.">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "name": "Проектирование и эргономика бара",
+        "description": "Разработка планировки кофейни, пекарни или ресторанного бара: расстановка оборудования, схема розеток, техническое задание для строителей.",
+        "url": "https://baristaschool.ru/bar_engineering",
+        "provider": {
+          "@type": "Organization",
+          "name": "Московская школа бариста",
+          "url": "https://baristaschool.ru",
+          "foundingDate": "2009"
+        },
+        "areaServed": "RU",
+        "offers": {
+          "@type": "Offer",
+          "price": "40000",
+          "priceCurrency": "RUB",
+          "description": "Базовая стоимость от 40 000 ₽"
+        },
+        "serviceOutput": "Готовый проект планировки бара с перечнем оборудования и техническим заданием"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Что именно входит в услугу?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Вы получаете полный пакет: список оборудования с ссылками и ценами, план расстановки со схемой зон, схему розеток, техническое задание для строителей и бонусный чек-лист запуска."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Можно ли работать удалённо, если мы не в Москве?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Да, полностью удалённо. Все созвоны по видеосвязи, документы в цифровом виде. Работаем по всей России."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Сколько стоит проектирование бара?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Базовая стоимость от 40 000 ₽. Цена зависит от сложности проекта: площади, меню и количества рабочих мест. Точная сумма — после брифинга."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Сколько времени занимает работа?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Обычно до 10 рабочих дней с момента получения всех исходных данных."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Mulish', sans-serif; background: #fff; color: #1F1F1F; }
+
+    /* ── Scroll-reveal ── */
+    .mbs-fade-in {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .mbs-fade-in.mbs-visible {
+      opacity: 1;
+      transform: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="block-01"></div>
+  <div id="block-02"></div>
+  <div id="block-03"></div>
+  <div id="block-04"></div>
+  <div id="block-05"></div>
+  <div id="block-06"></div>
+  <div id="block-07"></div>
+  <div id="block-08"></div>
+
+  <script>
+    async function loadBlock(id, file) {
+      const res = await fetch('/tilda-blocks/' + file);
+      const html = await res.text();
+      // Вставляем содержимое body из каждого фрагмента
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+      const body = doc.body;
+      const target = document.getElementById(id);
+      // Переносим стили из head
+      doc.head.querySelectorAll('style').forEach(s => {
+        const clone = document.createElement('style');
+        clone.textContent = s.textContent;
+        document.head.appendChild(clone);
+      });
+      // Переносим содержимое body
+      while (body.firstChild) {
+        target.appendChild(body.firstChild);
+      }
+      // Запускаем скрипты
+      target.querySelectorAll('script').forEach(orig => {
+        const s = document.createElement('script');
+        s.textContent = orig.textContent;
+        orig.replaceWith(s);
+      });
+    }
+
+    (async () => {
+      await loadBlock('block-01', '01-hero.html');
+      await loadBlock('block-02', '02-advantages.html');
+      await loadBlock('block-03', '03-deliverables.html');
+      await loadBlock('block-04', '04-how-it-works.html');
+      await loadBlock('block-05', '05-portfolio.html');
+      await loadBlock('block-06', '06-price.html');
+      await loadBlock('block-07', '07-faq.html');
+      await loadBlock('block-08', '08-final-cta.html');
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!--
+  БЛОК 06 — FAQ  [id="faq"]
+  Место: после стоимости
+  Задача: снять последние возражения и вопросы
+  Содержит: sticky-заголовок слева + аккордеон <details> справа
+  Фон: #F5F5F5
+  Sticky: эмулируется через JS (Tilda ломает position:sticky)
+-->
+
+<style>
+  .mbs-faq {
+    font-family: 'Mulish', sans-serif;
+    background: #F5F5F5;
+    padding: 90px 20px;
+    color: #1F1F1F;
+    overflow: clip; /* запрещает translateY вылезать в соседние блоки */
+  }
+  .mbs-faq * { box-sizing: border-box; }
+
+  .mbs-faq__wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 72px;
+    align-items: start;
+  }
+
+  /* Левая: sticky-колонка */
+  .mbs-faq__left {
+    will-change: transform;
+  }
+
+  .mbs-faq__label {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 14px;
+    padding: 7px 16px;
+    border-radius: 999px;
+    background: rgba(231, 242, 227, 0.95);
+    color: #417033;
+    font-size: 13px;
+    line-height: 1;
+    font-weight: 900;
+  }
+
+  .mbs-faq__big-title {
+    margin: 0 0 16px;
+    font-size: 52px;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 0.96;
+    color: #1F1F1F;
+  }
+
+  .mbs-faq__lead {
+    margin: 0 0 28px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.55;
+    color: #555555;
+  }
+
+  .mbs-faq__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 0 26px;
+    border-radius: 999px;
+    background: #4F883E;
+    color: #fff !important;
+    text-decoration: none !important;
+    font-family: 'Mulish', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1;
+    transition: background 0.2s, transform 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+  .mbs-faq__cta:hover {
+    background: #417033;
+    transform: translateY(-1px);
+    color: #fff !important;
+  }
+
+  /* Правая: аккордеон */
+  .mbs-faq__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .mbs-faq__item {
+    border-bottom: 1.5px solid #E0E0E0;
+  }
+  .mbs-faq__item:first-child {
+    border-top: 1.5px solid #E0E0E0;
+  }
+
+  .mbs-faq__item summary {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 22px 0;
+    cursor: pointer;
+    user-select: none;
+  }
+  .mbs-faq__item summary::-webkit-details-marker { display: none; }
+
+  .mbs-faq__q {
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #1F1F1F;
+    flex: 1;
+  }
+
+  /* Иконка +/– */
+  .mbs-faq__arrow {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: #E7F2E3;
+    color: #417033;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .mbs-faq__arrow svg {
+    width: 16px; height: 16px;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform 0.32s;
+  }
+
+  .mbs-faq__item[open] .mbs-faq__arrow {
+    background: #417033;
+    color: #FFFFFF;
+  }
+  .mbs-faq__item[open] .mbs-faq__arrow svg {
+    transform: rotate(45deg);
+  }
+
+  /* Тело аккордеона — анимация через JS */
+  .mbs-faq__body {
+    overflow: hidden;
+    height: 0;
+    transition: height 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .mbs-faq__answer {
+    padding: 0 0 22px;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.6;
+    color: #555555;
+    overflow: visible;
+  }
+
+  .mbs-faq__answer a {
+    color: #417033;
+    font-weight: 700;
+  }
+
+  /* ─── Адаптив ─── */
+  @media (max-width: 900px) {
+    .mbs-faq__left { will-change: auto; }
+  }
+
+  @media (max-width: 820px) {
+    .mbs-faq { padding: 64px 14px; }
+    .mbs-faq__wrap {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+    .mbs-faq__big-title { font-size: 34px; }
+    .mbs-faq__q { font-size: 17px; }
+    .mbs-faq__answer { font-size: 16px; }
+  }
+</style>
+
+<section class="mbs-faq" id="faq">
+  <div class="mbs-faq__wrap">
+
+    <!-- Левая sticky-колонка -->
+    <div class="mbs-faq__left" id="faqStickyEl">
+      <span class="mbs-faq__label">Вопросы и ответы</span>
+      <h2 class="mbs-faq__big-title">Частые вопросы</h2>
+      <p class="mbs-faq__lead">Если не нашли ответ — напишите нам, и мы ответим в течение нескольких часов</p>
+      <a href="#consalt" class="mbs-faq__cta">Задать вопрос</a>
+    </div>
+
+    <!-- Правая: аккордеон -->
+    <div class="mbs-faq__list" id="faqList">
+
+      <details class="mbs-faq__item">
+        <summary>
+          <span class="mbs-faq__q">Что именно входит в услугу?</span>
+          <span class="mbs-faq__arrow"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </summary>
+        <div class="mbs-faq__body">
+          <p class="mbs-faq__answer">Вы получаете полный пакет: список оборудования с ссылками и ценами, план расстановки со схемой зон, схему розеток, техническое задание для строителей и бонусный чек-лист запуска. Плюс — поддержка в мессенджере на этапе монтажа.</p>
+        </div>
+      </details>
+
+      <details class="mbs-faq__item">
+        <summary>
+          <span class="mbs-faq__q">Нужно ли уже иметь помещение?</span>
+          <span class="mbs-faq__arrow"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </summary>
+        <div class="mbs-faq__body">
+          <p class="mbs-faq__answer">Да, помещение необходимо — мы работаем на этапе, когда оно уже есть. Чем раньше вы обращаетесь после его появления — тем больше ошибок удастся избежать и дешевле обойдётся реализация.</p>
+        </div>
+      </details>
+
+      <details class="mbs-faq__item">
+        <summary>
+          <span class="mbs-faq__q">Можно ли работать удалённо, если мы не в Москве?</span>
+          <span class="mbs-faq__arrow"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </summary>
+        <div class="mbs-faq__body">
+          <p class="mbs-faq__answer">Да, полностью удалённо. Все созвоны — по видеосвязи, документы передаём в цифровом виде. Для работы нам нужны фото помещения, план или замеры, а также информация о меню и концепции — всё это вы указываете в <a href="https://barengineering.bitrix24site.ru/Bar/" target="_blank">нашей анкете</a> на первом шаге.</p>
+        </div>
+      </details>
+
+      <details class="mbs-faq__item">
+        <summary>
+          <span class="mbs-faq__q">Что если у меня уже есть оборудование?</span>
+          <span class="mbs-faq__arrow"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </summary>
+        <div class="mbs-faq__body">
+          <p class="mbs-faq__answer">Отлично — будем проектировать с учётом имеющейся техники. Если какое-то оборудование стоит заменить или добавить — скажем об этом честно и предложим альтернативы с обоснованием.</p>
+        </div>
+      </details>
+
+      <details class="mbs-faq__item">
+        <summary>
+          <span class="mbs-faq__q">Как формируется итоговая цена?</span>
+          <span class="mbs-faq__arrow"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </summary>
+        <div class="mbs-faq__body">
+          <p class="mbs-faq__answer">Базовая стоимость — от 40 000 ₽. Цена зависит от сложности проекта: площади бара, количества позиций в меню, количества рабочих мест и необходимости дополнительных согласований. Точная сумма — после брифинга, без скрытых доплат.</p>
+        </div>
+      </details>
+
+      <details class="mbs-faq__item">
+        <summary>
+          <span class="mbs-faq__q">Сколько времени занимает работа?</span>
+          <span class="mbs-faq__arrow"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </summary>
+        <div class="mbs-faq__body">
+          <p class="mbs-faq__answer">Обычно до 10 рабочих дней с момента получения всех исходных данных. Срочные проекты обсуждаются отдельно.</p>
+        </div>
+      </details>
+
+      <details class="mbs-faq__item">
+        <summary>
+          <span class="mbs-faq__q">Вы помогаете с покупкой оборудования?</span>
+          <span class="mbs-faq__arrow"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </summary>
+        <div class="mbs-faq__body">
+          <p class="mbs-faq__answer">Да. Мы являемся дилерами кофемашин и кофемолок ряда брендов, поэтому можем помочь с покупкой напрямую. По остальному оборудованию — даём конкретные рекомендации с прямыми ссылками на проверенных поставщиков.</p>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  /* ── Аккордеон с плавной анимацией ── */
+  var allDetails = Array.from(document.querySelectorAll('.mbs-faq__item'));
+
+  function closeItem(details) {
+    var body = details.querySelector('.mbs-faq__body');
+    if (!details.open) return;
+    body.style.height = body.scrollHeight + 'px';
+    body.offsetHeight;
+    body.style.height = '0px';
+    body.addEventListener('transitionend', function done(ev) {
+      if (ev.propertyName !== 'height') return;
+      body.removeEventListener('transitionend', done);
+      details.open = false;
+    });
+  }
+
+  allDetails.forEach(function (details) {
+    var body = details.querySelector('.mbs-faq__body');
+    var busy = false;
+
+    details.querySelector('summary').addEventListener('click', function (e) {
+      e.preventDefault();
+      if (busy) return;
+
+      if (details.open) {
+        busy = true;
+        body.style.height = body.scrollHeight + 'px';
+        body.offsetHeight; // forced reflow
+        body.style.height = '0px';
+        body.addEventListener('transitionend', function done(ev) {
+          if (ev.propertyName !== 'height') return;
+          body.removeEventListener('transitionend', done);
+          details.open = false;
+          busy = false;
+        });
+      } else {
+        busy = true;
+        // закрываем остальные
+        allDetails.forEach(function(other) { if (other !== details) closeItem(other); });
+        details.open = true;
+        var targetH = body.scrollHeight;
+        body.style.height = '0px';
+        body.offsetHeight; // forced reflow
+        body.style.height = targetH + 'px';
+        body.addEventListener('transitionend', function done(ev) {
+          if (ev.propertyName !== 'height') return;
+          body.removeEventListener('transitionend', done);
+          body.style.height = 'auto'; // ОБЯЗАТЕЛЬНО 'auto', не ''
+          busy = false;
+        });
+      }
+    });
+  });
+
+  /* ── JS-sticky для левой колонки (Tilda ломает position:sticky) ── */
+  var TOP_OFFSET = 90;
+
+  function initSticky() {
+    var section  = document.getElementById('faq');
+    var stickyEl = document.getElementById('faqStickyEl');
+    var wrap     = section ? section.querySelector('.mbs-faq__wrap') : null;
+    if (!stickyEl || !wrap) return;
+
+    var ticking = false;
+
+    function update() {
+      ticking = false;
+      if (window.innerWidth <= 900) {
+        stickyEl.style.transform = '';
+        return;
+      }
+      var wrapRect = wrap.getBoundingClientRect();
+      var elH      = stickyEl.offsetHeight;
+      var maxShift = wrapRect.height - elH;
+      var shift    = TOP_OFFSET - wrapRect.top;
+      if (shift < 0)        shift = 0;
+      if (shift > maxShift) shift = Math.max(0, maxShift);
+      stickyEl.style.transform = 'translateY(' + shift + 'px)';
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', update,   { passive: true });
+    update();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSticky);
+  } else {
+    initSticky();
+  }
+
+  /* ── Scroll-reveal ── */
+  (function(){
+    if(!window.IntersectionObserver)return;
+    if(!document.getElementById('mbs-reveal-style')){
+      var s=document.createElement('style');s.id='mbs-reveal-style';
+      s.textContent='.mbs-fade-in{opacity:0;transform:translateY(24px);transition:opacity .55s ease,transform .55s ease}.mbs-fade-in.mbs-visible{opacity:1;transform:none}';
+      document.head.appendChild(s);
+    }
+    var section=document.getElementById('faq');if(!section)return;
+    var els=section.querySelectorAll('.mbs-faq__left,.mbs-faq__item');
+    els.forEach(function(el,i){el.classList.add('mbs-fade-in');el.style.transitionDelay=Math.min(i*0.07,0.35)+'s';});
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          e.target.classList.add('mbs-visible');
+          e.target.addEventListener('transitionend',function c(){e.target.style.transitionDelay='0s';e.target.removeEventListener('transitionend',c);});
+          io.unobserve(e.target);
+        }
+      });
+    },{threshold:0.08});
+    els.forEach(function(el){io.observe(el);});
+  })();
+})();
+</script>

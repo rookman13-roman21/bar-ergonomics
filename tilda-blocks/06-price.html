@@ -1,0 +1,346 @@
+<!--
+  БЛОК 05 — СТОИМОСТЬ  [id="price"]
+  Место: после «Как проходит работа»
+  Задача: главная CTA-карточка с ценой и кнопкой заявки
+  Содержит: карточка с тенью, цена, что входит, CTA
+  Фон: #F5F5F5
+-->
+
+<style>
+  .mbs-price {
+    font-family: 'Mulish', sans-serif;
+    background: #FFFFFF;
+    padding: 90px 20px;
+    color: #1F1F1F;
+  }
+  .mbs-price * { box-sizing: border-box; }
+
+  .mbs-price__wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .mbs-price__header {
+    margin-bottom: 44px;
+  }
+
+  .mbs-price__label {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 14px;
+    padding: 7px 16px;
+    border-radius: 999px;
+    background: rgba(231, 242, 227, 0.95);
+    color: #417033;
+    font-size: 13px;
+    line-height: 1;
+    font-weight: 900;
+  }
+
+  .mbs-price__title {
+    margin: 0 0 10px;
+    font-size: 34px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: #1F1F1F;
+  }
+
+  .mbs-price__subtitle {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #555555;
+  }
+
+  /* Основная карточка */
+  .mbs-price__card {
+    background: #FFFFFF;
+    box-shadow: 0 24px 72px rgba(31, 31, 31, 0.12);
+    border: 8px solid #E7F2E3;
+    border-radius: 28px;
+    padding: 56px 64px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  /* Левая: цена + кнопки */
+
+  .mbs-price__tag {
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #B6D8AB;
+    margin-bottom: 8px;
+  }
+
+  .mbs-price__amount {
+    font-size: 58px;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    color: #1F1F1F;
+    margin-bottom: 4px;
+  }
+
+  .mbs-price__amount span {
+    font-size: 32px;
+    font-weight: 700;
+    color: #555555;
+    letter-spacing: -0.02em;
+  }
+
+  .mbs-price__note {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555555;
+    margin-bottom: 32px;
+    line-height: 1.5;
+  }
+
+  .mbs-price__note strong {
+    color: #1F1F1F;
+    font-weight: 700;
+  }
+
+  .mbs-price__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+    width: 100%;
+    padding: 0 32px;
+    border-radius: 999px;
+    background: #CC2841;
+    color: #fff !important;
+    text-decoration: none !important;
+    font-family: 'Mulish', sans-serif;
+    font-size: 17px;
+    font-weight: 900;
+    line-height: 1;
+    transition: background 0.2s, transform 0.2s;
+    cursor: pointer;
+    border: none;
+    margin-bottom: 12px;
+  }
+  .mbs-price__btn:hover {
+    background: #D83D54;
+    transform: translateY(-1px);
+    color: #fff !important;
+  }
+
+  .mbs-price__consult {
+    display: block;
+    text-align: center;
+    color: #555555 !important;
+    text-decoration: none !important;
+    font-size: 14px;
+    font-weight: 600;
+    transition: color 0.2s;
+    cursor: pointer;
+  }
+  .mbs-price__consult:hover {
+    color: #417033 !important;
+    text-decoration: underline !important;
+  }
+
+  .mbs-price__timing {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    background: #E7F2E3;
+    border-radius: 14px;
+  }
+  .mbs-price__timing-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: #FFFFFF;
+    color: #417033;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+  .mbs-price__timing-icon svg {
+    width: 18px; height: 18px;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .mbs-price__timing-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: #417033;
+    line-height: 1.35;
+  }
+
+  /* Правая: что входит */
+
+  .mbs-price__includes-title {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #B6D8AB;
+    margin-bottom: 20px;
+  }
+
+  .mbs-price__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .mbs-price__list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1F1F1F;
+    line-height: 1.4;
+  }
+
+  .mbs-price__check {
+    width: 22px;
+    height: 22px;
+    border-radius: 7px;
+    background: #E7F2E3;
+    color: #417033;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .mbs-price__check svg {
+    width: 13px; height: 13px;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .mbs-price__list-sub {
+    font-size: 13px;
+    font-weight: 500;
+    color: #555555;
+    margin-top: 2px;
+    display: block;
+  }
+
+  /* ─── Адаптив ─── */
+  @media (max-width: 900px) {
+    .mbs-price__card {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding: 36px 32px;
+    }
+    .mbs-price__amount { font-size: 46px; }
+  }
+
+  @media (max-width: 820px) {
+    .mbs-price { padding: 64px 14px; }
+    .mbs-price__title { font-size: 26px; }
+    .mbs-price__card { padding: 28px 20px; }
+    .mbs-price__amount { font-size: 42px; }
+  }
+</style>
+
+<section class="mbs-price" id="price">
+  <div class="mbs-price__wrap">
+
+    <div class="mbs-price__header">
+      <span class="mbs-price__label">Инвестиции</span>
+      <h2 class="mbs-price__title">Стоимость проектирования бара</h2>
+      <p class="mbs-price__subtitle">Фиксированная цена, без скрытых доплат — всё обсуждается на берегу</p>
+    </div>
+
+    <div class="mbs-price__card">
+
+      <!-- Левая: цена + CTA -->
+      <div class="mbs-price__left">
+        <p class="mbs-price__tag">Стоимость</p>
+        <div class="mbs-price__amount">40 000 <span>₽</span></div>
+        <p class="mbs-price__note">Итоговая цена зависит от сложности проекта и&nbsp;площади бара. <strong>Точная стоимость — после брифа.</strong></p>
+
+        <a href="https://barengineering.bitrix24site.ru/Bar/" target="_blank" class="mbs-price__btn">Заполнить анкету</a>
+        <a href="#consalt" class="mbs-price__consult">Или задать вопрос →</a>
+
+        <div class="mbs-price__timing">
+          <div class="mbs-price__timing-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <span class="mbs-price__timing-text">До 10 рабочих дней<br>с момента получения данных о&nbsp;баре</span>
+        </div>
+      </div>
+
+      <!-- Правая: что входит -->
+      <div class="mbs-price__right">
+        <p class="mbs-price__includes-title">Что входит в стоимость</p>
+        <ul class="mbs-price__list">
+          <li>
+            <span class="mbs-price__check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span>Список оборудования<span class="mbs-price__list-sub">Excel с ссылками и актуальными ценами</span></span>
+          </li>
+          <li>
+            <span class="mbs-price__check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span>План расстановки оборудования<span class="mbs-price__list-sub">Схема бара с размерами и зонами</span></span>
+          </li>
+          <li>
+            <span class="mbs-price__check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span>Схема розеток<span class="mbs-price__list-sub">Количество, расположение и высота установки</span></span>
+          </li>
+          <li>
+            <span class="mbs-price__check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span>Техническое задание для строителей<span class="mbs-price__list-sub">Требования к стойке, рекомендации по материалам</span></span>
+          </li>
+          <li>
+            <span class="mbs-price__check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span>Консультации во время монтажа<span class="mbs-price__list-sub">Поддержка в мессенджере на этапе реализации</span></span>
+          </li>
+          <li>
+            <span class="mbs-price__check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span>Чек-лист запуска бара<span class="mbs-price__list-sub">Бонус: что проверить перед монтажом и в день открытия</span></span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  if(!window.IntersectionObserver)return;
+  if(!document.getElementById('mbs-reveal-style')){
+    var s=document.createElement('style');s.id='mbs-reveal-style';
+    s.textContent='.mbs-fade-in{opacity:0;transform:translateY(24px);transition:opacity .55s ease,transform .55s ease}.mbs-fade-in.mbs-visible{opacity:1;transform:none}';
+    document.head.appendChild(s);
+  }
+  var section=document.getElementById('price');if(!section)return;
+  var els=section.querySelectorAll('.mbs-price__header,.mbs-price__card');
+  els.forEach(function(el,i){el.classList.add('mbs-fade-in');el.style.transitionDelay=Math.min(i*0.1,0.3)+'s';});
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add('mbs-visible');
+        e.target.addEventListener('transitionend',function c(){e.target.style.transitionDelay='0s';e.target.removeEventListener('transitionend',c);});
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:0.08});
+  els.forEach(function(el){io.observe(el);});
+})();
+</script>
