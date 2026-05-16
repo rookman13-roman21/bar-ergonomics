@@ -2,7 +2,7 @@
   БЛОК 04 — КАК ПРОХОДИТ РАБОТА  [id="how"]
   Место: после «Что получите»
   Задача: снять страх «как это вообще работает» — показать этапы
-  Содержит: 6 шагов с пунктирной линией-связкой, иконкой, заголовком и описанием
+  Макет: двухколоночный как FAQ — слева заголовок sticky, справа аккордеон
   Фон: #E7F2E3 (светло-зелёный)
 -->
 
@@ -12,16 +12,22 @@
     background: #E7F2E3;
     padding: 90px 20px;
     color: #1F1F1F;
+    overflow: clip;
   }
   .mbs-how * { box-sizing: border-box; }
 
   .mbs-how__wrap {
     max-width: 1100px;
     margin: 0 auto;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 72px;
+    align-items: start;
   }
 
-  .mbs-how__header {
-    margin-bottom: 52px;
+  /* Левая: sticky-колонка */
+  .mbs-how__left {
+    will-change: transform;
   }
 
   .mbs-how__label {
@@ -37,274 +43,331 @@
     font-weight: 900;
   }
 
-  .mbs-how__title {
-    margin: 0 0 10px;
-    font-size: 34px;
+  .mbs-how__big-title {
+    margin: 0 0 16px;
+    font-size: 52px;
     font-weight: 900;
-    line-height: 1;
     letter-spacing: -0.04em;
+    line-height: 0.96;
     color: #1F1F1F;
   }
 
-  .mbs-how__subtitle {
-    margin: 0;
-    font-size: 15px;
+  .mbs-how__lead {
+    margin: 0 0 28px;
+    font-size: 16px;
     font-weight: 500;
-    line-height: 1.5;
-    color: #417033;
-    max-width: 500px;
+    line-height: 1.55;
+    color: #555555;
   }
 
-  /* Лента шагов */
+  .mbs-how__cta-side,
+  .mbs-how__cta-side:link,
+  .mbs-how__cta-side:visited {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 0 26px;
+    border-radius: 999px;
+    background: #4F883E;
+    color: #fff !important;
+    text-decoration: none !important;
+    font-family: 'Mulish', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1;
+    transition: background 0.2s, transform 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+  .mbs-how__cta-side:hover,
+  .mbs-how__cta-side:active {
+    background: #417033;
+    transform: translateY(-1px);
+    color: #fff !important;
+  }
+
+  /* Правая: аккордеон */
   .mbs-how__steps {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    display: flex;
+    flex-direction: column;
     gap: 0;
-    position: relative;
-  }
-
-  /* Горизонтальная пунктирная линия между шагами */
-  .mbs-how__steps::before {
-    content: '';
-    position: absolute;
-    top: 23px; /* центр иконки (46px / 2) */
-    left: calc(46px / 2);
-    right: calc(46px / 2);
-    height: 2px;
-    background: repeating-linear-gradient(
-      90deg,
-      #B6D8AB 0px,
-      #B6D8AB 8px,
-      transparent 8px,
-      transparent 18px
-    );
-    pointer-events: none;
-    z-index: 0;
   }
 
   .mbs-how__step {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    padding: 0 12px 0 0;
-    position: relative;
-    z-index: 1;
+    border-bottom: 1.5px solid rgba(65, 112, 51, 0.25);
   }
-  .mbs-how__step:last-child { padding-right: 0; }
+  .mbs-how__step:first-child {
+    border-top: 1.5px solid rgba(65, 112, 51, 0.25);
+  }
 
-  .mbs-how__step-icon {
-    width: 46px;
-    height: 46px;
-    border-radius: 14px;
-    background: #FFFFFF;
+  .mbs-how__step > summary {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 22px 0;
+    cursor: pointer;
+    user-select: none;
+  }
+  .mbs-how__step > summary::-webkit-details-marker { display: none; }
+
+  .mbs-how__step-title {
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #1F1F1F;
+    flex: 1;
+  }
+
+  .mbs-how__arrow {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: rgba(231, 242, 227, 0.9);
     color: #417033;
     display: grid;
     place-items: center;
     flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(65,112,51,0.12);
+    transition: background 0.2s;
   }
-  .mbs-how__step-icon svg {
-    width: 22px;
-    height: 22px;
+  .mbs-how__arrow svg {
+    width: 16px; height: 16px;
     stroke: currentColor;
-    stroke-width: 1.8;
+    stroke-width: 2.5;
     fill: none;
     stroke-linecap: round;
     stroke-linejoin: round;
+    transition: transform 0.32s;
+  }
+  .mbs-how__step[open] .mbs-how__arrow {
+    background: #417033;
+    color: #fff;
+  }
+  .mbs-how__step[open] .mbs-how__arrow svg {
+    transform: rotate(45deg);
   }
 
-  .mbs-how__step-num {
-    font-size: 11px;
-    font-weight: 900;
-    letter-spacing: 0.1em;
-    color: #4F883E;
-    text-transform: uppercase;
+  .mbs-how__body {
+    overflow: hidden;
+    height: 0;
+    transition: height 0.32s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .mbs-how__step-title {
-    margin: 0;
-    font-size: 15px;
-    font-weight: 800;
-    line-height: 1.25;
-    letter-spacing: -0.01em;
-    color: #1F1F1F;
-  }
-
-  .mbs-how__step-text {
-    margin: 0;
-    font-size: 13px;
+  .mbs-how__body-inner {
+    padding: 0 0 22px;
+    font-size: 17px;
     font-weight: 500;
-    line-height: 1.5;
+    line-height: 1.6;
     color: #555555;
   }
 
   /* ─── Адаптив ─── */
-  @media (max-width: 1000px) {
-    .mbs-how__steps {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
-    }
-    .mbs-how__steps::before { display: none; }
-  }
-
-  @media (max-width: 600px) {
-    .mbs-how__steps {
-      grid-template-columns: 1fr 1fr;
-      gap: 28px;
-    }
-    .mbs-how__steps::before { display: none; }
+  @media (max-width: 900px) {
+    .mbs-how__left { will-change: auto; }
   }
 
   @media (max-width: 820px) {
     .mbs-how { padding: 64px 14px; }
-    .mbs-how__title { font-size: 26px; }
-  }
-
-  @media (max-width: 480px) {
-    .mbs-how__steps { grid-template-columns: 1fr; }
+    .mbs-how__wrap {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+    .mbs-how__big-title { font-size: 34px; }
+    .mbs-how__step-title { font-size: 17px; }
+    .mbs-how__body-inner { font-size: 16px; }
   }
 </style>
 
 <section class="mbs-how" id="how">
   <div class="mbs-how__wrap">
 
-    <div class="mbs-how__header">
+    <!-- Левая sticky-колонка -->
+    <div class="mbs-how__left" id="howStickyEl">
       <span class="mbs-how__label">Процесс</span>
-      <h2 class="mbs-how__title">Как проходит проектирование кофейного бара</h2>
-      <p class="mbs-how__subtitle">6 шагов от заполнения формы до передачи готового проекта</p>
+      <h2 class="mbs-how__big-title">Как проходит работа</h2>
+      <p class="mbs-how__lead">6 шагов от заполнения формы до передачи готового проекта</p>
+      <a href="https://barengineering.bitrix24site.ru/Bar/" target="_blank" class="mbs-how__cta-side">Заполнить форму</a>
     </div>
 
-    <div class="mbs-how__steps">
+    <!-- Правая: аккордеон шагов -->
+    <div class="mbs-how__steps" id="howStepsList">
 
-      <div class="mbs-how__step">
-        <div class="mbs-how__step-icon">
-          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      <details class="mbs-how__step">
+        <summary>
+          <span class="mbs-how__step-title">Шаг 1 — Заполнение формы</span>
+          <span class="mbs-how__arrow"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </summary>
+        <div class="mbs-how__body">
+          <div class="mbs-how__body-inner">Вы заполняете анкету с базовой информацией о проекте — это помогает нам подготовиться к работе заранее и задать правильные вопросы на первой встрече.</div>
         </div>
-        <span class="mbs-how__step-num">Шаг 01</span>
-        <h3 class="mbs-how__step-title">Заполнение формы</h3>
-        <p class="mbs-how__step-text">Вы заполняете анкету с базовой информацией о проекте — это помогает нам подготовиться к работе заранее.</p>
-      </div>
+      </details>
 
-      <div class="mbs-how__step">
-        <div class="mbs-how__step-icon">
-          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <details class="mbs-how__step">
+        <summary>
+          <span class="mbs-how__step-title">Шаг 2 — Анализ материалов</span>
+          <span class="mbs-how__arrow"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </summary>
+        <div class="mbs-how__body">
+          <div class="mbs-how__body-inner">Изучаем переданные вами материалы: планы помещения, фото, замеры и всю дополнительную информацию. Формируем список уточняющих вопросов.</div>
         </div>
-        <span class="mbs-how__step-num">Шаг 02</span>
-        <h3 class="mbs-how__step-title">Анализ материалов</h3>
-        <p class="mbs-how__step-text">Изучаем переданные вами материалы: планы помещения, фото, замеры и всю дополнительную информацию.</p>
-      </div>
+      </details>
 
-      <div class="mbs-how__step">
-        <div class="mbs-how__step-icon">
-          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.99 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.9 1.17h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.99 6l1.2-1.2a2 2 0 0 1 2.11-.45c.908.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      <details class="mbs-how__step">
+        <summary>
+          <span class="mbs-how__step-title">Шаг 3 — Знакомство и бриф</span>
+          <span class="mbs-how__arrow"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </summary>
+        <div class="mbs-how__body">
+          <div class="mbs-how__body-inner">Видеовстреча в Zoom: обсуждаем концепцию, меню, персонал и детали вашего проекта. Уточняем всё, что нужно для работы. Обычно занимает 30–60 минут.</div>
         </div>
-        <span class="mbs-how__step-num">Шаг 03</span>
-        <h3 class="mbs-how__step-title">Знакомство и бриф</h3>
-        <p class="mbs-how__step-text">Видеовстреча в Zoom: обсуждаем концепцию, меню, персонал и детали вашего проекта. Уточняем всё, что нужно для работы.</p>
-      </div>
+      </details>
 
-      <div class="mbs-how__step">
-        <div class="mbs-how__step-icon">
-          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>
+      <details class="mbs-how__step">
+        <summary>
+          <span class="mbs-how__step-title">Шаг 4 — Проектирование</span>
+          <span class="mbs-how__arrow"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </summary>
+        <div class="mbs-how__body">
+          <div class="mbs-how__body-inner">Создаём план расстановки оборудования, подбираем технику с учётом бюджета, прорабатываем все узлы бара: зону кофе, выдачу, холодильное оборудование и хранение.</div>
         </div>
-        <span class="mbs-how__step-num">Шаг 04</span>
-        <h3 class="mbs-how__step-title">Проектирование</h3>
-        <p class="mbs-how__step-text">Создаём план расстановки оборудования, подбираем технику с учётом бюджета, прорабатываем все узлы бара.</p>
-      </div>
+      </details>
 
-      <div class="mbs-how__step">
-        <div class="mbs-how__step-icon">
-          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <details class="mbs-how__step">
+        <summary>
+          <span class="mbs-how__step-title">Шаг 5 — Согласование</span>
+          <span class="mbs-how__arrow"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </summary>
+        <div class="mbs-how__body">
+          <div class="mbs-how__body-inner">Презентуем проект, при необходимости вносим правки. После утверждения переходим к финальной проработке — уже без изменений.</div>
         </div>
-        <span class="mbs-how__step-num">Шаг 05</span>
-        <h3 class="mbs-how__step-title">Согласование</h3>
-        <p class="mbs-how__step-text">Презентуем проект, при необходимости вносим правки. После утверждения переходим к финальной проработке — уже без изменений.</p>
-      </div>
+      </details>
 
-      <div class="mbs-how__step">
-        <div class="mbs-how__step-icon">
-          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      <details class="mbs-how__step">
+        <summary>
+          <span class="mbs-how__step-title">Шаг 6 — Передача проекта</span>
+          <span class="mbs-how__arrow"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </summary>
+        <div class="mbs-how__body">
+          <div class="mbs-how__body-inner">Отправляем финальный пакет документов. Остаёмся на связи во время монтажа и помогаем решать возникающие вопросы.</div>
         </div>
-        <span class="mbs-how__step-num">Шаг 06</span>
-        <h3 class="mbs-how__step-title">Передача проекта</h3>
-        <p class="mbs-how__step-text">Отправляем финальный пакет документов. Остаёмся на связи во время монтажа и помогаем решать возникающие вопросы.</p>
-      </div>
+      </details>
 
     </div>
-
-    <div class="mbs-how__cta">
-      <a href="https://barengineering.bitrix24site.ru/Bar/" target="_blank" class="mbs-how__cta-btn">
-        Заполнить анкету — первый шаг к проекту
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
-      <p class="mbs-how__cta-note">Займёт 3–5 минут — после этого свяжемся и назначим встречу</p>
-    </div>
-
   </div>
 </section>
 
-<style>
-  .mbs-how__cta {
-    margin-top: 52px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    text-align: center;
-  }
-  .mbs-how__cta-btn,
-  .mbs-how__cta-btn:link,
-  .mbs-how__cta-btn:visited {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 16px 36px;
-    background: #417033;
-    color: #fff !important;
-    font-family: 'Mulish', sans-serif;
-    font-size: 16px;
-    font-weight: 800;
-    text-decoration: none !important;
-    border-radius: 999px;
-    transition: background 0.2s, transform 0.2s;
-  }
-  .mbs-how__cta-btn:hover,
-  .mbs-how__cta-btn:active {
-    background: #355a28;
-    transform: translateY(-2px);
-    color: #fff !important;
-    text-decoration: none !important;
-  }
-  .mbs-how__cta-note {
-    margin: 0;
-    font-family: 'Mulish', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    color: #417033;
-    opacity: 0.75;
-  }
-</style>
-
 <script>
-(function(){
-  if(!window.IntersectionObserver)return;
-  if(!document.getElementById('mbs-reveal-style')){
-    var s=document.createElement('style');s.id='mbs-reveal-style';
-    s.textContent='.mbs-fade-in{opacity:0;transform:translateY(24px);transition:opacity .55s ease,transform .55s ease}.mbs-fade-in.mbs-visible{opacity:1;transform:none}';
-    document.head.appendChild(s);
+(function () {
+  var allSteps = Array.from(document.querySelectorAll('.mbs-how__step'));
+
+  function closeStep(details) {
+    var body = details.querySelector('.mbs-how__body');
+    if (!details.open) return;
+    body.style.height = body.scrollHeight + 'px';
+    body.offsetHeight;
+    body.style.height = '0px';
+    body.addEventListener('transitionend', function done(ev) {
+      if (ev.propertyName !== 'height') return;
+      body.removeEventListener('transitionend', done);
+      details.open = false;
+    });
   }
-  var section=document.getElementById('how');if(!section)return;
-  var els=section.querySelectorAll('.mbs-how__header,.mbs-how__step');
-  els.forEach(function(el,i){el.classList.add('mbs-fade-in');el.style.transitionDelay=Math.min(i*0.09,0.45)+'s';});
-  var io=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){
-        e.target.classList.add('mbs-visible');
-        e.target.addEventListener('transitionend',function c(){e.target.style.transitionDelay='0s';e.target.removeEventListener('transitionend',c);});
-        io.unobserve(e.target);
+
+  allSteps.forEach(function (details) {
+    var body = details.querySelector('.mbs-how__body');
+    var busy = false;
+
+    details.querySelector('summary').addEventListener('click', function (e) {
+      e.preventDefault();
+      if (busy) return;
+
+      if (details.open) {
+        busy = true;
+        body.style.height = body.scrollHeight + 'px';
+        body.offsetHeight;
+        body.style.height = '0px';
+        body.addEventListener('transitionend', function done(ev) {
+          if (ev.propertyName !== 'height') return;
+          body.removeEventListener('transitionend', done);
+          details.open = false;
+          busy = false;
+        });
+      } else {
+        busy = true;
+        allSteps.forEach(function (other) { if (other !== details) closeStep(other); });
+        details.open = true;
+        var targetH = body.scrollHeight;
+        body.style.height = '0px';
+        body.offsetHeight;
+        body.style.height = targetH + 'px';
+        body.addEventListener('transitionend', function done(ev) {
+          if (ev.propertyName !== 'height') return;
+          body.removeEventListener('transitionend', done);
+          body.style.height = 'auto';
+          busy = false;
+        });
       }
     });
-  },{threshold:0.08});
-  els.forEach(function(el){io.observe(el);});
+  });
+
+  /* ── JS-sticky для левой колонки ── */
+  var TOP_OFFSET = 90;
+
+  function initSticky() {
+    var section  = document.getElementById('how');
+    var stickyEl = document.getElementById('howStickyEl');
+    var wrap     = section ? section.querySelector('.mbs-how__wrap') : null;
+    if (!stickyEl || !wrap) return;
+
+    var ticking = false;
+
+    function update() {
+      ticking = false;
+      if (window.innerWidth <= 820) { stickyEl.style.transform = ''; return; }
+      var wrapRect = wrap.getBoundingClientRect();
+      var elH      = stickyEl.offsetHeight;
+      var maxShift = wrapRect.height - elH;
+      var shift    = TOP_OFFSET - wrapRect.top;
+      if (shift < 0) shift = 0;
+      if (shift > maxShift) shift = Math.max(0, maxShift);
+      stickyEl.style.transform = 'translateY(' + shift + 'px)';
+    }
+
+    function onScroll() { if (!ticking) { requestAnimationFrame(update); ticking = true; } }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    update();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSticky);
+  } else {
+    initSticky();
+  }
+
+  /* ── Scroll-reveal ── */
+  (function () {
+    if (!window.IntersectionObserver) return;
+    if (!document.getElementById('mbs-reveal-style')) {
+      var s = document.createElement('style'); s.id = 'mbs-reveal-style';
+      s.textContent = '.mbs-fade-in{opacity:0;transform:translateY(24px);transition:opacity .55s ease,transform .55s ease}.mbs-fade-in.mbs-visible{opacity:1;transform:none}';
+      document.head.appendChild(s);
+    }
+    var section = document.getElementById('how'); if (!section) return;
+    var els = section.querySelectorAll('.mbs-how__left, .mbs-how__step');
+    els.forEach(function (el, i) { el.classList.add('mbs-fade-in'); el.style.transitionDelay = Math.min(i * 0.07, 0.35) + 's'; });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('mbs-visible');
+          e.target.addEventListener('transitionend', function c() { e.target.style.transitionDelay = '0s'; e.target.removeEventListener('transitionend', c); });
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    els.forEach(function (el) { io.observe(el); });
+  })();
 })();
 </script>

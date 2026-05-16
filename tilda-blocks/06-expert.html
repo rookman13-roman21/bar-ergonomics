@@ -1,0 +1,368 @@
+<!--
+  БЛОК 06 — О СПЕЦИАЛИСТЕ  [id="expert"]
+  Место: после портфолио (05), перед стоимостью (07)
+  Задача: повысить доверие — показать, кто стоит за проектом
+  Макет: двухколоночный — слева фото, справа биография и факты
+  Фон: #FFFFFF
+-->
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Роман Суслин",
+  "jobTitle": "Основатель Московской школы бариста, эксперт по организации кофейных пространств",
+  "image": "https://static.tildacdn.com/tild3238-3539-4339-b633-653730316666/_2.jpg",
+  "url": "https://baristaschool.ru/master_open",
+  "sameAs": ["https://baristaschool.ru"],
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Московская школа бариста",
+    "url": "https://baristaschool.ru",
+    "foundingDate": "2015"
+  },
+  "knowsAbout": [
+    "эргономика бара",
+    "проектирование кофейни",
+    "расстановка барного оборудования",
+    "организация рабочего пространства бариста"
+  ],
+  "description": "Кофейный эксперт с 15-летним опытом. Основатель Московской школы бариста (2015). Работал бариста в «Кофемании», тренером в Куппо, шеф-баристой в «Мясо и Рыба». 5 лет управлял собственным кафе. Специализируется на проектировании барных зон."
+}
+</script>
+
+<style>
+  .mbs-expert {
+    font-family: 'Mulish', sans-serif;
+    background: #FFFFFF;
+    padding: 90px 20px;
+    color: #1F1F1F;
+  }
+  .mbs-expert * { box-sizing: border-box; }
+
+  .mbs-expert__wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 72px;
+    align-items: start;
+  }
+
+  /* ── Левая: фото ── */
+  .mbs-expert__photo-col {
+    position: relative;
+  }
+
+  .mbs-expert__img-wrap {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+  }
+
+  .mbs-expert__img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    background: #E7F2E3;
+  }
+
+  .mbs-expert__img-badge {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: 16px;
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 24px rgba(31, 31, 31, 0.12);
+  }
+
+  .mbs-expert__badge-name {
+    font-size: 16px;
+    font-weight: 900;
+    color: #1F1F1F;
+    line-height: 1.2;
+  }
+
+  .mbs-expert__badge-role {
+    font-size: 12px;
+    font-weight: 600;
+    color: #417033;
+    line-height: 1.4;
+  }
+
+  /* ── Правая: контент ── */
+  .mbs-expert__content {
+    padding-top: 8px;
+  }
+
+  .mbs-expert__label {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 14px;
+    padding: 7px 16px;
+    border-radius: 999px;
+    background: #E7F2E3;
+    color: #417033;
+    font-size: 13px;
+    line-height: 1;
+    font-weight: 900;
+  }
+
+  .mbs-expert__name {
+    margin: 0 0 8px;
+    font-size: 52px;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 0.96;
+    color: #1F1F1F;
+  }
+
+  .mbs-expert__title {
+    margin: 0 0 24px;
+    font-size: 17px;
+    font-weight: 600;
+    color: #555555;
+    line-height: 1.4;
+  }
+
+  .mbs-expert__bio {
+    margin: 0 0 32px;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.65;
+    color: #444444;
+  }
+
+  /* ── Статы ── */
+  .mbs-expert__stats {
+    display: flex;
+    gap: 0;
+    margin-bottom: 36px;
+  }
+
+  .mbs-expert__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 0 24px 0 0;
+    margin: 0 24px 0 0;
+    border-right: 1.5px solid rgba(65, 112, 51, 0.25);
+  }
+  .mbs-expert__stat:last-child {
+    border-right: none;
+    padding-right: 0;
+    margin-right: 0;
+  }
+
+  .mbs-expert__stat-value {
+    font-size: 32px;
+    font-weight: 900;
+    color: #417033;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .mbs-expert__stat-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #777777;
+    line-height: 1.35;
+  }
+
+  /* ── Список фактов ── */
+  .mbs-expert__facts {
+    list-style: none;
+    margin: 0 0 36px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .mbs-expert__fact {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #444444;
+    line-height: 1.5;
+  }
+
+  .mbs-expert__fact-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: #E7F2E3;
+    color: #417033;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .mbs-expert__fact-icon svg {
+    width: 12px;
+    height: 12px;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ── CTA ── */
+  .mbs-expert__cta,
+  .mbs-expert__cta:link,
+  .mbs-expert__cta:visited {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 0 28px;
+    border-radius: 999px;
+    background: #4F883E;
+    color: #fff !important;
+    text-decoration: none !important;
+    font-family: 'Mulish', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1;
+    transition: background 0.2s, transform 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+  .mbs-expert__cta:hover,
+  .mbs-expert__cta:active {
+    background: #417033;
+    transform: translateY(-1px);
+    color: #fff !important;
+  }
+
+  /* ── Адаптив ── */
+  @media (max-width: 900px) {
+    .mbs-expert__wrap {
+      grid-template-columns: 320px 1fr;
+      gap: 48px;
+    }
+    .mbs-expert__name { font-size: 40px; }
+  }
+
+  @media (max-width: 720px) {
+    .mbs-expert { padding: 64px 14px; }
+    .mbs-expert__wrap {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .mbs-expert__img-wrap { max-width: 320px; }
+    .mbs-expert__name { font-size: 36px; }
+    .mbs-expert__stat-value { font-size: 26px; }
+  }
+</style>
+
+<section class="mbs-expert" id="expert">
+  <div class="mbs-expert__wrap">
+
+    <!-- Левая: фото -->
+    <div class="mbs-expert__photo-col">
+      <div class="mbs-expert__img-wrap">
+        <img
+          class="mbs-expert__img"
+          src="https://static.tildacdn.com/tild3238-3539-4339-b633-653730316666/_2.jpg"
+          alt="Роман Суслин — основатель МШБ, специалист по барной эргономике"
+          onerror="this.style.background='#E7F2E3'; this.removeAttribute('src')"
+        >
+        <div class="mbs-expert__img-badge">
+          <span class="mbs-expert__badge-name">Роман Суслин</span>
+          <span class="mbs-expert__badge-role">Основатель МШБ · Специалист по барной эргономике</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Правая: биография -->
+    <div class="mbs-expert__content">
+      <span class="mbs-expert__label">Специалист</span>
+      <h2 class="mbs-expert__name">Роман Суслин</h2>
+      <p class="mbs-expert__title">Основатель Московской школы бариста, эксперт по организации кофейных пространств</p>
+
+      <p class="mbs-expert__bio">
+        Кофейный путь Романа начался в 2011 году с работы бариста в сети ресторанов «Кофемания». За 4 года вырос до тренера в кофейной компании Куппо. В 2015 году основал Московскую школу бариста. Работал шеф-баристой в сети ресторанов «Мясо и Рыба». 5 лет параллельно управлял собственным кафе — знает устройство бара изнутри: как должно быть расставлено оборудование, где теряется время и как сделать работу баристы эффективной.
+      </p>
+
+      <!-- Цифры -->
+      <div class="mbs-expert__stats">
+        <div class="mbs-expert__stat">
+          <span class="mbs-expert__stat-value">15+</span>
+          <span class="mbs-expert__stat-label">лет в кофейной<br>индустрии</span>
+        </div>
+        <div class="mbs-expert__stat">
+          <span class="mbs-expert__stat-value">5</span>
+          <span class="mbs-expert__stat-label">лет вёл<br>собственное кафе</span>
+        </div>
+        <div class="mbs-expert__stat">
+          <span class="mbs-expert__stat-value">2015</span>
+          <span class="mbs-expert__stat-label">год основания<br>МШБ</span>
+        </div>
+      </div>
+
+      <!-- Факты -->
+      <ul class="mbs-expert__facts">
+        <li class="mbs-expert__fact">
+          <span class="mbs-expert__fact-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+          Проектирует барные зоны с учётом реального рабочего процесса и скорости сервиса
+        </li>
+        <li class="mbs-expert__fact">
+          <span class="mbs-expert__fact-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+          Знает типичные ошибки расстановки оборудования, которые замедляют бариста
+        </li>
+        <li class="mbs-expert__fact">
+          <span class="mbs-expert__fact-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+          Обучил сотни барных команд — понимает, как устроена работа изнутри
+        </li>
+        <li class="mbs-expert__fact">
+          <span class="mbs-expert__fact-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+          Помогает предпринимателям избежать дорогостоящих ошибок на старте
+        </li>
+      </ul>
+
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function () {
+  if (!window.IntersectionObserver) return;
+  if (!document.getElementById('mbs-reveal-style')) {
+    var s = document.createElement('style'); s.id = 'mbs-reveal-style';
+    s.textContent = '.mbs-fade-in{opacity:0;transform:translateY(24px);transition:opacity .55s ease,transform .55s ease}.mbs-fade-in.mbs-visible{opacity:1;transform:none}';
+    document.head.appendChild(s);
+  }
+  var section = document.getElementById('expert'); if (!section) return;
+  var els = section.querySelectorAll('.mbs-expert__photo-col, .mbs-expert__content');
+  els.forEach(function (el, i) {
+    el.classList.add('mbs-fade-in');
+    el.style.transitionDelay = (i * 0.12) + 's';
+  });
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('mbs-visible');
+        e.target.addEventListener('transitionend', function c() {
+          e.target.style.transitionDelay = '0s';
+          e.target.removeEventListener('transitionend', c);
+        });
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  els.forEach(function (el) { io.observe(el); });
+})();
+</script>

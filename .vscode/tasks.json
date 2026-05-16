@@ -65,6 +65,86 @@
 			"label": "git-init-bar",
 			"type": "shell",
 			"command": "cd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics && git init && git config user.email 'rookman13@github.com' && git config user.name 'rookman13-roman21' && git add -A && git status 2>&1 | tail -10"
+		},
+		{
+			"label": "git-commit2-bar",
+			"type": "shell",
+			"command": "cd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics && git commit -m 'feat: tilda-blocks bar ergonomics — 8 blocks, SEO, FAQ, portfolio' 2>&1"
+		},
+		{
+			"label": "check-gh-cli",
+			"type": "shell",
+			"command": "which gh && gh auth status 2>&1 | head -5"
+		},
+		{
+			"label": "gh-create-push",
+			"type": "shell",
+			"command": "cd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics && gh repo create bar-ergonomics --public --source=. --remote=origin --push 2>&1"
+		},
+		{
+			"label": "gh-push-final",
+			"type": "shell",
+			"command": "cd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics && gh repo create bar-ergonomics --public --source=. --remote=origin --push 2>&1"
+		},
+		{
+			"label": "deploy-bar-ergonomics",
+			"type": "shell",
+			"command": "/opt/homebrew/bin/vercel --prod --yes --cwd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics 2>&1 | tail -5"
+		},
+		{
+			"label": "deploy-bar-ergonomics",
+			"type": "shell",
+			"command": "/opt/homebrew/bin/vercel --prod --yes --cwd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics 2>&1 | tail -5"
+		},
+		{
+			"label": "deploy-bar-ergonomics",
+			"type": "shell",
+			"command": "/opt/homebrew/bin/vercel --prod --yes --cwd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics 2>&1 | tail -4"
+		},
+		{
+			"label": "deploy-bar-ergonomics",
+			"type": "shell",
+			"command": "/opt/homebrew/bin/vercel --prod --yes --cwd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics 2>&1 | tail -4"
+		},
+		{
+			"label": "deploy-04-how",
+			"type": "shell",
+			"command": "/opt/homebrew/bin/vercel --prod --yes --cwd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics 2>&1 | tail -5"
+		},
+		{
+			"label": "deploy-btn-rename",
+			"type": "shell",
+			"command": "/opt/homebrew/bin/vercel --prod --yes --cwd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics 2>&1 | tail -3"
+		},
+		{
+			"label": "deploy-hero-stats",
+			"type": "shell",
+			"command": "/opt/homebrew/bin/vercel --prod --yes --cwd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics 2>&1 | tail -3"
+		},
+		{
+			"label": "deploy-expert-block",
+			"type": "shell",
+			"command": "/opt/homebrew/bin/vercel --prod --yes --cwd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics 2>&1 | tail -3"
+		},
+		{
+			"label": "deploy-renumbered-blocks",
+			"type": "shell",
+			"command": "/opt/homebrew/bin/vercel --prod --yes --cwd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics 2>&1 | tail -3"
+		},
+		{
+			"label": "deploy-expert-bio",
+			"type": "shell",
+			"command": "/opt/homebrew/bin/vercel --prod --yes --cwd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics 2>&1 | tail -3"
+		},
+		{
+			"label": "deploy-fix-blocks",
+			"type": "shell",
+			"command": "/opt/homebrew/bin/vercel --prod --yes --cwd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics 2>&1 | tail -3"
+		},
+		{
+			"label": "deploy-expert-seo",
+			"type": "shell",
+			"command": "/opt/homebrew/bin/vercel --prod --yes --cwd /Users/romansuslin_1/Downloads/All_Code/bar-ergonomics 2>&1 | tail -3"
 		}
 	]
 }

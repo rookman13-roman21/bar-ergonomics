@@ -111,50 +111,41 @@
 
   /* Фичи: срок · цена · эксперт */
   .mbs-hero__features {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    display: flex;
+    align-items: stretch;
+    gap: 0;
     margin-bottom: 28px;
   }
 
   .mbs-hero__feature {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
+    padding: 0 20px 0 0;
+    margin: 0 20px 0 0;
+    border-right: 1.5px solid rgba(65, 112, 51, 0.25);
   }
-
-  .mbs-hero__feature-icon {
-    width: 46px;
-    height: 46px;
-    border-radius: 14px;
-    background: #E7F2E3;
-    color: #417033;
-    display: grid;
-    place-items: center;
-    flex-shrink: 0;
+  .mbs-hero__feature:last-child {
+    border-right: none;
+    padding-right: 0;
+    margin-right: 0;
   }
-  .mbs-hero__feature-icon svg {
-    width: 24px;
-    height: 24px;
-    stroke: currentColor;
-    stroke-width: 1.8;
-    fill: none;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+  .mbs-hero__feature:first-child {
+    padding-left: 0;
   }
 
   .mbs-hero__feature-value {
-    font-size: 17px;
-    font-weight: 800;
+    font-size: 26px;
+    font-weight: 900;
     color: #1F1F1F;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
+    line-height: 1;
+    letter-spacing: -0.03em;
   }
 
   .mbs-hero__feature-label {
     font-size: 12px;
     font-weight: 600;
-    color: #555555;
+    color: #777777;
     line-height: 1.3;
   }
 
@@ -328,27 +319,18 @@
         <div class="mbs-hero__features">
 
           <div class="mbs-hero__feature">
-            <div class="mbs-hero__feature-icon">
-              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            </div>
             <span class="mbs-hero__feature-value">10 дней</span>
-            <span class="mbs-hero__feature-label">срок&nbsp;выполнения</span>
+            <span class="mbs-hero__feature-label">срок выполнения</span>
           </div>
 
           <div class="mbs-hero__feature">
-            <div class="mbs-hero__feature-icon">
-              <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-            </div>
             <span class="mbs-hero__feature-value">от 40&nbsp;000&nbsp;₽</span>
             <span class="mbs-hero__feature-label">стоимость проекта</span>
           </div>
 
           <div class="mbs-hero__feature">
-            <div class="mbs-hero__feature-icon">
-              <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            </div>
-            <span class="mbs-hero__feature-value">МШБ</span>
-            <span class="mbs-hero__feature-label">15 лет опыта в&nbsp;индустрии</span>
+            <span class="mbs-hero__feature-value">15 лет</span>
+            <span class="mbs-hero__feature-label">опыта в&nbsp;индустрии</span>
           </div>
 
         </div>
