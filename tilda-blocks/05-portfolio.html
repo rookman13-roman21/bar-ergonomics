@@ -1,340 +1,680 @@
 <!--
-  БЛОК 05 — КЕЙСЫ / ПОРТФОЛИО  [id="cases"]
+  БЛОК 05 — 3D-КЕЙСЫ  [id="cases"]
   Место: после «Как проходит работа» (04), перед специалистом (06)
-  Задача: социальное доказательство — реальные проекты с видео
-  Содержит: 4 карточки 2×2 с превью RuTube, inline embed при клике
-  Фон: #F5F5F5
+  Источник: публичный API drawings.barista-school.ru.
+  Не дублирует данные кейсов: Битрикс → showcase snapshot → API.
 -->
 
 <style>
-  .mbs-cases {
+  .mbs-3d-cases {
+    --mbs-3d-green: #417033;
+    --mbs-3d-red: #cc2841;
+    --mbs-3d-ink: #1f2a20;
+    --mbs-3d-muted: #667468;
     font-family: 'Mulish', sans-serif;
-    background: #F5F5F5;
+    background: #f5f5f5;
+    color: var(--mbs-3d-ink);
     padding: 90px 20px;
-    color: #1F1F1F;
   }
-  .mbs-cases * { box-sizing: border-box; }
-  .mbs-cases__wrap { max-width: 1100px; margin: 0 auto; }
-  .mbs-cases__header {
-    margin-bottom: 40px;
+  .mbs-3d-cases * { box-sizing: border-box; }
+  .mbs-3d-cases__wrap { max-width: 1200px; margin: 0 auto; }
+  .mbs-3d-cases__header {
     display: flex;
-    align-items: flex-end;
+    align-items: end;
     justify-content: space-between;
     gap: 24px;
-    flex-wrap: wrap;
+    margin-bottom: 34px;
   }
-  .mbs-cases__label {
-    display: inline-flex;
-    align-items: center;
-    margin-bottom: 12px;
-    padding: 7px 16px;
-    border-radius: 999px;
-    background: rgba(231, 242, 227, 0.95);
-    color: #417033;
+  .mbs-3d-cases__label {
+    display: inline-block;
+    margin: 0 0 12px;
+    color: var(--mbs-3d-green);
     font-size: 13px;
     font-weight: 900;
+    letter-spacing: .02em;
+    text-transform: uppercase;
   }
-  .mbs-cases__title {
-    margin: 0 0 8px;
-    font-size: 34px;
+  .mbs-3d-cases__title {
+    max-width: 720px;
+    margin: 0 0 10px;
+    color: var(--mbs-3d-ink);
+    font-size: clamp(32px, 4vw, 56px);
     font-weight: 900;
-    line-height: 1;
-    letter-spacing: -0.04em;
-    color: #1F1F1F;
+    line-height: .98;
+    letter-spacing: -.055em;
   }
-  .mbs-cases__subtitle {
+  .mbs-3d-cases__subtitle {
+    max-width: 620px;
     margin: 0;
-    font-size: 15px;
-    font-weight: 500;
-    color: #555;
+    color: var(--mbs-3d-muted);
+    font-size: 17px;
+    line-height: 1.45;
   }
-  .mbs-cases__more {
+  .mbs-3d-cases__fallback {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 20px;
-    border-radius: 999px;
-    border: 2px solid #417033;
-    color: #417033 !important;
-    text-decoration: none !important;
-    font-size: 13px;
+    flex: none;
+    padding: 12px 18px;
+    border: 1px solid #b6d8ab;
+    border-radius: 10px;
+    color: var(--mbs-3d-green) !important;
+    font-size: 14px;
     font-weight: 800;
-    white-space: nowrap;
-    transition: background 0.2s, color 0.2s;
-    flex-shrink: 0;
-    align-self: flex-end;
+    text-decoration: none !important;
   }
-  .mbs-cases__more:hover { background: #417033; color: #fff !important; }
-  .mbs-cases__grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-  .mbs-cases__card {
-    background: #fff;
-    border-radius: 16px;
-    overflow: hidden;
+  .mbs-3d-cases__fallback:hover { background: #e7f2e3; }
+  .mbs-3d-cases__carousel { position: relative; }
+  .mbs-3d-cases__rail {
     display: flex;
-    flex-direction: column;
-    transition: box-shadow 0.25s, transform 0.25s;
+    gap: 18px;
+    overflow-x: auto;
+    padding: 2px 1px 18px;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    touch-action: pan-y;
   }
-  .mbs-cases__card:hover { transform: translateY(-4px); box-shadow: 0 16px 44px rgba(31,31,31,0.10); }
-  .mbs-cases__thumb {
+  .mbs-3d-cases__rail::-webkit-scrollbar { display: none; }
+  .mbs-3d-cases__card {
+    display: flex;
+    flex: 0 0 min(340px, calc(100vw - 80px));
+    flex-direction: column;
+    min-height: 460px;
+    overflow: hidden;
+    border: 1px solid #c5dbbe;
+    border-radius: 16px;
+    background: #fff;
+    cursor: pointer;
+    scroll-snap-align: start;
+    transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+  }
+  .mbs-3d-cases__card:hover {
+    border-color: var(--mbs-3d-green);
+    box-shadow: 0 14px 34px rgba(31, 42, 32, .11);
+    transform: translateY(-3px);
+  }
+  .mbs-3d-cases__media {
     position: relative;
     aspect-ratio: 16 / 9;
     overflow: hidden;
-    background: linear-gradient(135deg, #d4e8cc 0%, #b6d8ab 100%);
+    background: linear-gradient(145deg, #dce9d8, #b6d8ab);
+  }
+  .mbs-3d-cases__media img { width: 100%; height: 100%; object-fit: cover; }
+  .mbs-3d-cases__placeholder {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    place-items: center;
+    color: var(--mbs-3d-green);
+    font-size: 14px;
+    font-weight: 900;
+  }
+  .mbs-3d-cases__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px 22px 22px;
+  }
+  .mbs-3d-cases__city {
+    margin: 0 0 12px;
+    color: var(--mbs-3d-green);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+  }
+  .mbs-3d-cases__name { margin: 0 0 10px; font-size: 25px; line-height: 1.08; letter-spacing: -.035em; }
+  .mbs-3d-cases__description {
+    display: -webkit-box;
+    overflow: hidden;
+    margin: 0 0 18px;
+    color: var(--mbs-3d-muted);
+    font-size: 15px;
+    line-height: 1.45;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+  .mbs-3d-cases__story {
+    margin: auto 0 15px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--mbs-3d-green);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 900;
+    text-align: left;
     cursor: pointer;
   }
-  .mbs-cases__thumb-img {
-    position: absolute;
-    inset: 0;
+  .mbs-3d-cases__project,
+  .mbs-3d-cases__dialog-project,
+  .mbs-3d-cases__lead {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 900;
+    text-decoration: none !important;
+  }
+  .mbs-3d-cases__project,
+  .mbs-3d-cases__dialog-project {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    z-index: 0;
+    padding: 11px 16px;
+    background: var(--mbs-3d-red);
+    color: #fff !important;
   }
-  .mbs-cases__preview {
+  .mbs-3d-cases__project:hover,
+  .mbs-3d-cases__dialog-project:hover { background: #ad1f35; }
+  .mbs-3d-cases__arrow {
     position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.2s;
-    background: rgba(0,0,0,0.18);
-    z-index: 1;
-  }
-  .mbs-cases__play-btn {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.93);
-    backdrop-filter: blur(6px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.18);
-    transition: transform 0.2s, background 0.2s;
-    color: #CC2841;
-    flex-shrink: 0;
-  }
-  .mbs-cases__thumb:hover .mbs-cases__play-btn { transform: scale(1.1); background: #fff; }
-  .mbs-cases__play-btn svg { width: 18px; height: 18px; fill: currentColor; margin-left: 3px; }
-  .mbs-cases__type-badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: rgba(255,255,255,0.92);
-    backdrop-filter: blur(6px);
-    border-radius: 7px;
-    padding: 4px 9px;
-    font-size: 10px;
-    font-weight: 800;
-    color: #1F1F1F;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
     z-index: 2;
+    top: 50%;
+    display: grid;
+    width: 48px;
+    height: 48px;
+    place-items: center;
+    border: 1px solid #b6d8ab;
+    border-radius: 50%;
+    background: rgba(255,255,255,.96);
+    color: var(--mbs-3d-green);
+    font-size: 24px;
+    cursor: pointer;
+    transform: translateY(-50%);
   }
-  .mbs-cases__iframe-wrap {
+  .mbs-3d-cases__arrow:hover { background: #e7f2e3; }
+  .mbs-3d-cases__arrow[disabled] { opacity: .35; cursor: default; }
+  .mbs-3d-cases__arrow--previous { left: -24px; }
+  .mbs-3d-cases__arrow--next { right: -24px; }
+
+  .mbs-3d-cases-dialog {
+    --mbs-3d-green: #417033;
+    --mbs-3d-red: #cc2841;
+    --mbs-3d-ink: #1f2a20;
+    --mbs-3d-muted: #667468;
+    --mbs-3d-line: #d2e2cd;
+    --mbs-3d-surface: #ffffff;
+    width: min(1040px, calc(100vw - 32px));
+    max-width: 1040px;
+    max-height: min(900px, calc(100dvh - 32px));
+    padding: 0;
+    border: 0;
+    border-radius: 20px;
+    background: #fff;
+    color: var(--mbs-3d-ink);
+    font-family: 'Mulish', sans-serif;
+  }
+  .mbs-3d-cases-dialog::backdrop { background: rgba(19, 31, 22, .72); }
+  .mbs-3d-cases-dialog__panel { display: flex; max-height: inherit; flex-direction: column; }
+  .mbs-3d-cases-dialog__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 30px 32px 24px;
+    border-bottom: 1px solid #dfe9db;
+  }
+  .mbs-3d-cases-dialog__eyebrow { margin: 0 0 10px; color: var(--mbs-3d-green); font-size: 13px; font-weight: 900; text-transform: uppercase; }
+  .mbs-3d-cases-dialog h2 { margin: 0; font-size: clamp(28px, 4vw, 44px); line-height: 1; letter-spacing: -.045em; }
+  .mbs-3d-cases-dialog__close {
+    display: grid;
+    width: 46px;
+    height: 46px;
+    flex: none;
+    place-items: center;
+    border: 1px solid #b6d8ab;
+    border-radius: 50%;
+    background: #fff;
+    color: #34563b;
+    font-size: 34px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .mbs-3d-cases-dialog__content { overflow-y: auto; padding: 28px 32px; }
+  .mbs-3d-cases-dialog__description { max-width: 780px; margin: 0; color: #58675a; font-size: 18px; line-height: 1.5; }
+  .mbs-3d-cases-dialog__albums-title { margin: 30px 0 16px; font-size: 15px; font-weight: 900; }
+  .mbs-3d-cases-dialog__albums { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+  .mbs-3d-cases-dialog__album {
+    display: flex;
+    min-height: 164px;
+    overflow: hidden;
+    padding: 0;
+    border: 1px solid #c5dbbe;
+    border-radius: 13px;
+    background: #fff;
+    color: var(--mbs-3d-ink);
+    text-align: left;
+    cursor: pointer;
+  }
+  .mbs-3d-cases-dialog__album img { width: 42%; object-fit: cover; }
+  .mbs-3d-cases-dialog__album-copy { display: flex; flex: 1; flex-direction: column; justify-content: center; padding: 18px; }
+  .mbs-3d-cases-dialog__album-label { color: var(--mbs-3d-green); font-size: 11px; font-weight: 900; text-transform: uppercase; }
+  .mbs-3d-cases-dialog__album strong { margin: 7px 0; font-size: 18px; line-height: 1.13; }
+  .mbs-3d-cases-dialog__album-count { color: var(--mbs-3d-muted); font-size: 13px; font-weight: 800; }
+  .mbs-3d-cases-dialog__back { padding: 0; border: 0; background: transparent; color: var(--mbs-3d-green); font: inherit; font-size: 14px; font-weight: 900; cursor: pointer; }
+  .mbs-3d-cases-dialog__gallery-title { margin: 12px 0 20px; font-size: 23px; line-height: 1.15; }
+  .mbs-3d-cases-dialog__stage {
+    position: relative;
+    display: grid;
+    min-height: min(54vh, 510px);
+    place-items: center;
+    overflow: hidden;
+    background: #132017;
+    touch-action: pan-y;
+  }
+  .mbs-3d-cases-dialog__stage img { width: 100%; height: 100%; max-height: 510px; object-fit: contain; }
+  .mbs-3d-cases-dialog__nav {
     position: absolute;
-    inset: 0;
-    display: none;
-    z-index: 3;
+    top: 50%;
+    display: grid;
+    width: 50px;
+    height: 50px;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,.94);
+    color: #36533b;
+    font-size: 25px;
+    cursor: pointer;
+    transform: translateY(-50%);
   }
-  .mbs-cases__iframe-wrap iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    display: block;
+  .mbs-3d-cases-dialog__nav[disabled] { opacity: .45; cursor: default; }
+  .mbs-3d-cases-dialog__nav--previous { left: 20px; }
+  .mbs-3d-cases-dialog__nav--next { right: 20px; }
+  .mbs-3d-cases-dialog__counter {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    padding: 7px 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.94);
+    color: #1f2a20;
+    font-size: 13px;
+    font-weight: 900;
   }
-  .mbs-cases__iframe-wrap.active { display: block; }
-  .mbs-cases__preview.hidden { opacity: 0; pointer-events: none; }
-  .mbs-cases__iframe-wrap.active ~ .mbs-cases__thumb-img { display: none; }
-  .mbs-cases__body {
-    padding: 16px 18px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    flex: 1;
-  }
-  .mbs-cases__card-title {
-    margin: 0;
-    font-size: 15px;
-    font-weight: 800;
-    line-height: 1.25;
-    letter-spacing: -0.01em;
-    color: #1F1F1F;
-  }
-  .mbs-cases__card-desc {
-    margin: 0;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 1.55;
-    color: #666;
-    flex: 1;
-  }
-  .mbs-cases__results {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  .mbs-cases__result {
+  .mbs-3d-cases-dialog__actions {
     display: flex;
     align-items: center;
-    gap: 5px;
-    background: #E7F2E3;
-    border-radius: 6px;
-    padding: 4px 9px;
-    font-size: 11px;
-    font-weight: 700;
-    color: #417033;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 22px 32px;
+    border-top: 1px solid #dfe9db;
   }
-  .mbs-cases__result-dot {
-    width: 4px; height: 4px;
-    border-radius: 50%;
-    background: #4F883E;
-    flex-shrink: 0;
+  .mbs-3d-cases-dialog__lead-copy { margin: 0; font-size: 17px; font-weight: 900; }
+  .mbs-3d-cases-dialog__lead-note { display: block; margin-top: 5px; color: var(--mbs-3d-muted); font-size: 14px; }
+  .mbs-3d-cases-dialog__links { display: flex; gap: 12px; flex: none; }
+  .mbs-3d-cases__dialog-project,
+  .mbs-3d-cases__lead { width: auto; padding: 11px 16px; white-space: nowrap; }
+  .mbs-3d-cases__lead { border: 1px solid #b6d8ab; color: var(--mbs-3d-green) !important; }
+  .mbs-3d-cases__lead:hover { background: #e7f2e3; }
+
+  @media (max-width: 900px) {
+    .mbs-3d-cases { padding: 68px 16px; }
+    .mbs-3d-cases__header { align-items: flex-start; flex-direction: column; }
+    .mbs-3d-cases__arrow { display: none; }
+    .mbs-3d-cases-dialog__albums { grid-template-columns: 1fr; }
   }
-  @media (max-width: 820px) {
-    .mbs-cases { padding: 64px 14px; }
-    .mbs-cases__title { font-size: 28px; }
-    .mbs-cases__header { flex-direction: column; align-items: flex-start; }
-  }
-  @media (max-width: 540px) {
-    .mbs-cases__grid { grid-template-columns: 1fr; }
+  @media (max-width: 640px) {
+    .mbs-3d-cases__title { font-size: 36px; }
+    .mbs-3d-cases__subtitle { font-size: 16px; }
+    .mbs-3d-cases-dialog { width: 100vw; max-height: 100dvh; border-radius: 0; }
+    .mbs-3d-cases-dialog__header { padding: 24px 20px 20px; }
+    .mbs-3d-cases-dialog__content { padding: 22px 20px; }
+    .mbs-3d-cases-dialog__description { font-size: 17px; }
+    .mbs-3d-cases-dialog__actions { align-items: stretch; flex-direction: column; padding: 20px; }
+    .mbs-3d-cases-dialog__links { display: grid; grid-template-columns: 1fr; }
+    .mbs-3d-cases__dialog-project, .mbs-3d-cases__lead { width: 100%; }
+    .mbs-3d-cases-dialog__stage { min-height: 46vh; }
+    .mbs-3d-cases-dialog__nav { width: 44px; height: 44px; }
+    .mbs-3d-cases-dialog__nav--previous { left: 12px; }
+    .mbs-3d-cases-dialog__nav--next { right: 12px; }
   }
 </style>
 
-<section class="mbs-cases" id="cases">
-  <div class="mbs-cases__wrap">
-    <div class="mbs-cases__header">
-      <div class="mbs-cases__header-left">
-        <span class="mbs-cases__label">Наши проекты</span>
-        <h2 class="mbs-cases__title">Примеры работ по проектированию бара</h2>
-        <p class="mbs-cases__subtitle">Нажмите на карточку — видео откроется прямо здесь</p>
+<section
+  class="mbs-3d-cases"
+  id="cases"
+  data-cases-api="https://drawings.barista-school.ru/api/public/cases"
+  data-viewer-origin="https://drawings.barista-school.ru"
+  data-lead-url="https://barengineering.bitrix24site.ru/Bar/"
+>
+  <div class="mbs-3d-cases__wrap">
+    <div class="mbs-3d-cases__header">
+      <div>
+        <p class="mbs-3d-cases__label">Реализованные проекты</p>
+        <h2 class="mbs-3d-cases__title">Посмотрите барные зоны в 3D</h2>
+        <p class="mbs-3d-cases__subtitle">Откройте историю проекта, посмотрите визуализацию и пройдитесь по подготовленному бару.</p>
       </div>
-      <a href="https://rutube.ru/plst/881938" target="_blank" rel="noopener" class="mbs-cases__more">
-        Все видео на RuTube
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </a>
+      <a class="mbs-3d-cases__fallback" href="https://drawings.barista-school.ru/#publicCases" target="_blank" rel="noopener">Все 3D-проекты →</a>
     </div>
-    <div class="mbs-cases__grid">
-
-      <div class="mbs-cases__card">
-        <div class="mbs-cases__thumb" data-embed="https://rutube.ru/play/embed/9daf17c8342a0330626bda50641b2f45/">
-          <img class="mbs-cases__thumb-img" src="https://pic.rtbcdn.ru/video/2025-10-06/59/5b/595ba34f2a6949e6f9b522e21257112a.jpg?size=l" alt="Кейс: проектирование бара Пекарня адвоката — эргономика кофейни, Москва" loading="lazy">
-          <div class="mbs-cases__preview">
-            <div class="mbs-cases__play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-          </div>
-          <span class="mbs-cases__type-badge">Пекарня</span>
-          <div class="mbs-cases__iframe-wrap"></div>
-        </div>
-        <div class="mbs-cases__body">
-          <h3 class="mbs-cases__card-title">Пекарня адвоката — Москва, 10 м²</h3>
-          <p class="mbs-cases__card-desc">Компактная пекарня с кофейным баром. Разработали эргономичную расстановку, подобрали технику и подготовили полный пакет документов.</p>
-          <div class="mbs-cases__results">
-            <span class="mbs-cases__result"><span class="mbs-cases__result-dot"></span>10 м²</span>
-            <span class="mbs-cases__result"><span class="mbs-cases__result-dot"></span>Москва</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="mbs-cases__card">
-        <div class="mbs-cases__thumb" data-embed="https://rutube.ru/play/embed/24bf2126155daf2187760ca2f4e14dd8/">
-          <img class="mbs-cases__thumb-img" src="https://pic.rtbcdn.ru/video/2025-10-06/1d/e9/1de9f4382f53a8640984cfc3715adba7.jpg?size=l" alt="Кейс: планировка бара RedBeans — эргономика кофейни, Москва" loading="lazy">
-          <div class="mbs-cases__preview">
-            <div class="mbs-cases__play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-          </div>
-          <span class="mbs-cases__type-badge">Кофейня</span>
-          <div class="mbs-cases__iframe-wrap"></div>
-        </div>
-        <div class="mbs-cases__body">
-          <h3 class="mbs-cases__card-title">RedBeans — Москва, 8 м²</h3>
-          <p class="mbs-cases__card-desc">Небольшая кофейня. Оптимизировали рабочее пространство, подобрали оборудование под меню и подготовили техдокументацию для строителей.</p>
-          <div class="mbs-cases__results">
-            <span class="mbs-cases__result"><span class="mbs-cases__result-dot"></span>8 м²</span>
-            <span class="mbs-cases__result"><span class="mbs-cases__result-dot"></span>Москва</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="mbs-cases__card">
-        <div class="mbs-cases__thumb" data-embed="https://rutube.ru/play/embed/3a1da106fceb6a40fa7c94155c6ceef4/">
-          <img class="mbs-cases__thumb-img" src="https://pic.rtbcdn.ru/video/2025-10-03/fb/c5/fbc5f81f80355a33fe867b3bb619138a.jpg?size=l" alt="Кейс: проектирование бара BOCCA — эргономика кофейни, Москва" loading="lazy">
-          <div class="mbs-cases__preview">
-            <div class="mbs-cases__play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-          </div>
-          <span class="mbs-cases__type-badge">Кафе при фитнес-клубе</span>
-          <div class="mbs-cases__iframe-wrap"></div>
-        </div>
-        <div class="mbs-cases__body">
-          <h3 class="mbs-cases__card-title">BOCCA — Москва, 15 м²</h3>
-          <p class="mbs-cases__card-desc">Кафе полного цикла при фитнес-клубе. Спроектировали барную станцию с учётом кухни, специфики аудитории и высоких нагрузок.</p>
-          <div class="mbs-cases__results">
-            <span class="mbs-cases__result"><span class="mbs-cases__result-dot"></span>15 м²</span>
-            <span class="mbs-cases__result"><span class="mbs-cases__result-dot"></span>Москва</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="mbs-cases__card">
-        <div class="mbs-cases__thumb" data-embed="https://rutube.ru/play/embed/4a6aa3a3873ff809ed71a778d31a1da1/">
-          <img class="mbs-cases__thumb-img" src="https://pic.rtbcdn.ru/video/2025-03-04/c8/ed/c8ed725661a017ac4cff19ab3747d3c9.jpg?size=l" alt="Кейс: планировка бара Куда — эргономика кофейни, Москва" loading="lazy">
-          <div class="mbs-cases__preview">
-            <div class="mbs-cases__play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-          </div>
-          <span class="mbs-cases__type-badge">Кофейня</span>
-          <div class="mbs-cases__iframe-wrap"></div>
-        </div>
-        <div class="mbs-cases__body">
-          <h3 class="mbs-cases__card-title">Куда — Москва, 10 м²</h3>
-          <p class="mbs-cases__card-desc">Компактная кофейня. Разработали расстановку, схему розеток и ТЗ для строителей — проект под ключ до начала ремонта.</p>
-          <div class="mbs-cases__results">
-            <span class="mbs-cases__result"><span class="mbs-cases__result-dot"></span>10 м²</span>
-            <span class="mbs-cases__result"><span class="mbs-cases__result-dot"></span>Москва</span>
-          </div>
-        </div>
-      </div>
-
+    <div class="mbs-3d-cases__carousel" aria-label="3D-проекты барной эргономики">
+      <button class="mbs-3d-cases__arrow mbs-3d-cases__arrow--previous" type="button" aria-label="Предыдущий проект" disabled>←</button>
+      <div class="mbs-3d-cases__rail" role="list"></div>
+      <button class="mbs-3d-cases__arrow mbs-3d-cases__arrow--next" type="button" aria-label="Следующий проект" disabled>→</button>
     </div>
   </div>
 </section>
 
 <script>
-(function(){
-  document.querySelectorAll('.mbs-cases__thumb[data-embed]').forEach(function(thumb) {
-    thumb.addEventListener('click', function() {
-      var preview = thumb.querySelector('.mbs-cases__preview');
-      var iframeWrap = thumb.querySelector('.mbs-cases__iframe-wrap');
-      if (iframeWrap.classList.contains('active')) return;
-      var iframe = document.createElement('iframe');
-      iframe.src = thumb.getAttribute('data-embed') + '?autoplay=1';
-      iframe.allow = 'autoplay; fullscreen';
-      iframe.allowFullscreen = true;
-      iframeWrap.appendChild(iframe);
-      iframeWrap.classList.add('active');
-      preview.classList.add('hidden');
-    });
-  });
-  if(!window.IntersectionObserver)return;
-  if(!document.getElementById('mbs-reveal-style')){
-    var s=document.createElement('style');s.id='mbs-reveal-style';
-    s.textContent='.mbs-fade-in{opacity:0;transform:translateY(24px);transition:opacity .55s ease,transform .55s ease}.mbs-fade-in.mbs-visible{opacity:1;transform:none}';
-    document.head.appendChild(s);
+(function () {
+  var section = document.getElementById('cases');
+  if (!section || section.dataset.mbs3dCasesReady === 'true') return;
+  section.dataset.mbs3dCasesReady = 'true';
+
+  var apiUrl = section.dataset.casesApi;
+  var viewerOrigin = section.dataset.viewerOrigin;
+  var leadUrl = section.dataset.leadUrl;
+  var rail = section.querySelector('.mbs-3d-cases__rail');
+  var previous = section.querySelector('.mbs-3d-cases__arrow--previous');
+  var next = section.querySelector('.mbs-3d-cases__arrow--next');
+  var fallback = section.querySelector('.mbs-3d-cases__fallback');
+  var assetPath = /^\/api\/public\/case-assets\/[a-f0-9]{64}\.(?:webp|jpe?g)$/u;
+  var tokenPattern = /^[A-Za-z0-9_-]{20,64}$/u;
+  var dialog;
+  var dialogState;
+  var lockedScrollY = null;
+  var bodyStyles;
+
+  function safeAsset(value) {
+    if (typeof value !== 'string' || !assetPath.test(value)) return null;
+    return viewerOrigin + value;
   }
-  var section=document.getElementById('cases');if(!section)return;
-  var els=section.querySelectorAll('.mbs-cases__header,.mbs-cases__card');
-  els.forEach(function(el,i){el.classList.add('mbs-fade-in');el.style.transitionDelay=Math.min(i*0.1,0.4)+'s';});
-  var io=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){
-        e.target.classList.add('mbs-visible');
-        e.target.addEventListener('transitionend',function c(){e.target.style.transitionDelay='0s';e.target.removeEventListener('transitionend',c);});
-        io.unobserve(e.target);
-      }
+
+  function safeImages(value) {
+    if (!Array.isArray(value)) return [];
+    return value.map(safeAsset).filter(Boolean);
+  }
+
+  function normalizeCase(value) {
+    if (!value || typeof value !== 'object' || typeof value.name !== 'string' || !value.name.trim() || !tokenPattern.test(value.token || '')) return null;
+    var gallery = value.gallery && typeof value.gallery === 'object' ? value.gallery : {};
+    return {
+      name: value.name.trim(),
+      city: typeof value.city === 'string' ? value.city.trim() : '',
+      description: typeof value.description === 'string' ? value.description.trim() : '',
+      token: value.token,
+      cover: safeAsset(value.cover),
+      gallery: { visual: safeImages(gallery.visual), before: safeImages(gallery.before) }
+    };
+  }
+
+  function projectUrl(item) {
+    return viewerOrigin + '/#p=' + item.token;
+  }
+
+  function caseCover(item) {
+    return item.cover || item.gallery.visual[0] || item.gallery.before[0] || null;
+  }
+
+  function updateCarouselButtons() {
+    var maxScroll = Math.max(0, rail.scrollWidth - rail.clientWidth - 2);
+    previous.disabled = rail.scrollLeft <= 2;
+    next.disabled = rail.scrollLeft >= maxScroll;
+  }
+
+  function carouselStep() {
+    var card = rail.querySelector('.mbs-3d-cases__card');
+    var gap = parseFloat(window.getComputedStyle(rail).gap) || 0;
+    return card ? card.getBoundingClientRect().width + gap : rail.clientWidth * .8;
+  }
+
+  function appendText(parent, tag, className, value) {
+    var element = document.createElement(tag);
+    element.className = className;
+    element.textContent = value;
+    parent.appendChild(element);
+    return element;
+  }
+
+  function createProjectLink(className, item, text) {
+    var link = document.createElement('a');
+    link.className = className;
+    link.href = projectUrl(item);
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.textContent = text;
+    link.addEventListener('click', function (event) { event.stopPropagation(); });
+    return link;
+  }
+
+  function openLeadUrl(item) {
+    var url = new URL(leadUrl);
+    url.searchParams.set('utm_source', 'baristaschool');
+    url.searchParams.set('utm_medium', 'case_popup');
+    url.searchParams.set('utm_campaign', item.name);
+    return url.href;
+  }
+
+  function lockBackground() {
+    if (lockedScrollY !== null) return;
+    lockedScrollY = window.scrollY;
+    bodyStyles = {
+      position: document.body.style.position,
+      top: document.body.style.top,
+      width: document.body.style.width,
+      overflow: document.body.style.overflow
+    };
+    document.body.style.position = 'fixed';
+    document.body.style.top = '-' + lockedScrollY + 'px';
+    document.body.style.width = '100%';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function unlockBackground() {
+    if (lockedScrollY === null) return;
+    var scrollY = lockedScrollY;
+    document.body.style.position = bodyStyles.position;
+    document.body.style.top = bodyStyles.top;
+    document.body.style.width = bodyStyles.width;
+    document.body.style.overflow = bodyStyles.overflow;
+    lockedScrollY = null;
+    bodyStyles = null;
+    window.requestAnimationFrame(function () { window.scrollTo(0, scrollY); });
+  }
+
+  function ensureDialog() {
+    if (dialog) return dialog;
+    dialog = document.createElement('dialog');
+    dialog.className = 'mbs-3d-cases-dialog';
+    dialog.setAttribute('aria-label', 'История проекта');
+    dialog.addEventListener('click', function (event) { if (event.target === dialog) dialog.close(); });
+    dialog.addEventListener('close', function () { unlockBackground(); dialogState = null; });
+    document.body.appendChild(dialog);
+    return dialog;
+  }
+
+  function renderActions(panel, item) {
+    var actions = document.createElement('footer');
+    actions.className = 'mbs-3d-cases-dialog__actions';
+    var copy = document.createElement('div');
+    appendText(copy, 'p', 'mbs-3d-cases-dialog__lead-copy', 'Хотите обсудить свой проект?');
+    appendText(copy, 'span', 'mbs-3d-cases-dialog__lead-note', 'Оставьте заявку — подберём решение для вашей команды.');
+    var links = document.createElement('div');
+    links.className = 'mbs-3d-cases-dialog__links';
+    links.appendChild(createProjectLink('mbs-3d-cases__dialog-project', item, 'Смотреть 3D-проект'));
+    var lead = document.createElement('a');
+    lead.className = 'mbs-3d-cases__lead';
+    lead.href = openLeadUrl(item);
+    lead.target = '_blank';
+    lead.rel = 'noopener';
+    lead.textContent = 'Оставить заявку';
+    links.appendChild(lead);
+    actions.append(copy, links);
+    panel.appendChild(actions);
+  }
+
+  function renderOverview(content, item) {
+    appendText(content, 'p', 'mbs-3d-cases-dialog__description', item.description || 'Визуализация барной зоны и подготовленный 3D-проект.');
+    var groups = [
+      { key: 'visual', title: 'Визуализация готовой планировки' },
+      { key: 'before', title: 'Помещение до проекта' }
+    ].filter(function (group) { return dialogState.groups[group.key].length; });
+    if (!groups.length) return;
+    appendText(content, 'p', 'mbs-3d-cases-dialog__albums-title', 'Посмотрите материалы проекта');
+    var albums = document.createElement('div');
+    albums.className = 'mbs-3d-cases-dialog__albums';
+    groups.forEach(function (group) {
+      var images = dialogState.groups[group.key];
+      var album = document.createElement('button');
+      album.type = 'button';
+      album.className = 'mbs-3d-cases-dialog__album';
+      album.setAttribute('aria-label', 'Открыть альбом «' + group.title + '»');
+      var image = document.createElement('img');
+      image.src = images[0];
+      image.alt = '';
+      image.loading = 'lazy';
+      var copy = document.createElement('span');
+      copy.className = 'mbs-3d-cases-dialog__album-copy';
+      appendText(copy, 'span', 'mbs-3d-cases-dialog__album-label', 'Фотоальбом');
+      appendText(copy, 'strong', '', group.title);
+      appendText(copy, 'span', 'mbs-3d-cases-dialog__album-count', images.length + ' фото · Открыть');
+      album.append(image, copy);
+      album.addEventListener('click', function () { dialogState.screen = 'gallery'; dialogState.group = group.key; dialogState.index = 0; renderDialog(); });
+      albums.appendChild(album);
     });
-  },{threshold:0.08});
-  els.forEach(function(el){io.observe(el);});
-})();
+    content.appendChild(albums);
+  }
+
+  function bindGallerySwipe(stage, previousImage, nextImage) {
+    var start;
+    stage.addEventListener('pointerdown', function (event) { start = { x: event.clientX, y: event.clientY }; });
+    stage.addEventListener('pointerup', function (event) {
+      if (!start) return;
+      var dx = event.clientX - start.x;
+      var dy = event.clientY - start.y;
+      start = null;
+      if (Math.abs(dx) < 42 || Math.abs(dx) <= Math.abs(dy)) return;
+      if (dx < 0) nextImage(); else previousImage();
+    });
+  }
+
+  function renderGallery(content) {
+    var images = dialogState.groups[dialogState.group];
+    dialogState.index = Math.max(0, Math.min(dialogState.index, images.length - 1));
+    var title = dialogState.group === 'visual' ? 'Визуализация готовой планировки' : 'Помещение до проекта';
+    var back = document.createElement('button');
+    back.type = 'button';
+    back.className = 'mbs-3d-cases-dialog__back';
+    back.textContent = '← К описанию проекта';
+    back.addEventListener('click', function () { dialogState.screen = 'overview'; renderDialog(); });
+    content.appendChild(back);
+    appendText(content, 'h3', 'mbs-3d-cases-dialog__gallery-title', title);
+    var stage = document.createElement('div');
+    stage.className = 'mbs-3d-cases-dialog__stage';
+    var show = function (index) { dialogState.index = Math.max(0, Math.min(index, images.length - 1)); renderDialog(); };
+    var before = function () { show(dialogState.index - 1); };
+    var after = function () { show(dialogState.index + 1); };
+    var previousButton = document.createElement('button');
+    previousButton.type = 'button';
+    previousButton.className = 'mbs-3d-cases-dialog__nav mbs-3d-cases-dialog__nav--previous';
+    previousButton.textContent = '←';
+    previousButton.setAttribute('aria-label', 'Предыдущее фото');
+    previousButton.disabled = dialogState.index === 0;
+    previousButton.addEventListener('click', before);
+    var image = document.createElement('img');
+    image.src = images[dialogState.index];
+    image.alt = title + ', фото ' + (dialogState.index + 1) + ' из ' + images.length;
+    image.decoding = 'async';
+    var nextButton = document.createElement('button');
+    nextButton.type = 'button';
+    nextButton.className = 'mbs-3d-cases-dialog__nav mbs-3d-cases-dialog__nav--next';
+    nextButton.textContent = '→';
+    nextButton.setAttribute('aria-label', 'Следующее фото');
+    nextButton.disabled = dialogState.index >= images.length - 1;
+    nextButton.addEventListener('click', after);
+    appendText(stage, 'span', 'mbs-3d-cases-dialog__counter', (dialogState.index + 1) + ' / ' + images.length);
+    stage.append(previousButton, image, nextButton);
+    if (images[dialogState.index + 1]) { var preload = new Image(); preload.src = images[dialogState.index + 1]; }
+    if (images[dialogState.index - 1]) { var previousPreload = new Image(); previousPreload.src = images[dialogState.index - 1]; }
+    bindGallerySwipe(stage, before, after);
+    content.appendChild(stage);
+  }
+
+  function renderDialog() {
+    var activeDialog = ensureDialog();
+    var item = dialogState.item;
+    activeDialog.replaceChildren();
+    var panel = document.createElement('article');
+    panel.className = 'mbs-3d-cases-dialog__panel';
+    var header = document.createElement('header');
+    header.className = 'mbs-3d-cases-dialog__header';
+    var heading = document.createElement('div');
+    appendText(heading, 'p', 'mbs-3d-cases-dialog__eyebrow', item.city ? '3D-проект · ' + item.city : '3D-проект');
+    appendText(heading, 'h2', '', item.name);
+    var close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'mbs-3d-cases-dialog__close';
+    close.setAttribute('aria-label', 'Закрыть историю проекта');
+    close.textContent = '×';
+    close.addEventListener('click', function () { activeDialog.close(); });
+    header.append(heading, close);
+    var content = document.createElement('div');
+    content.className = 'mbs-3d-cases-dialog__content';
+    if (dialogState.screen === 'gallery') renderGallery(content); else renderOverview(content, item);
+    panel.append(header, content);
+    renderActions(panel, item);
+    activeDialog.appendChild(panel);
+  }
+
+  function openStory(item) {
+    dialogState = { item: item, groups: item.gallery, screen: 'overview', group: null, index: 0 };
+    renderDialog();
+    lockBackground();
+    ensureDialog().showModal();
+  }
+
+  function createCard(item) {
+    var card = document.createElement('article');
+    card.className = 'mbs-3d-cases__card';
+    card.setAttribute('role', 'listitem');
+    card.tabIndex = 0;
+    card.addEventListener('click', function () { openStory(item); });
+    card.addEventListener('keydown', function (event) { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openStory(item); } });
+    var media = document.createElement('div');
+    media.className = 'mbs-3d-cases__media';
+    var cover = caseCover(item);
+    if (cover) {
+      var image = document.createElement('img');
+      image.src = cover;
+      image.alt = '3D-проект: ' + item.name;
+      image.loading = 'lazy';
+      image.decoding = 'async';
+      media.appendChild(image);
+    } else {
+      appendText(media, 'span', 'mbs-3d-cases__placeholder', '3D-проект');
+    }
+    var body = document.createElement('div');
+    body.className = 'mbs-3d-cases__body';
+    appendText(body, 'p', 'mbs-3d-cases__city', item.city ? '3D-проект · ' + item.city : '3D-проект');
+    appendText(body, 'h3', 'mbs-3d-cases__name', item.name);
+    appendText(body, 'p', 'mbs-3d-cases__description', item.description || 'Визуализация барной зоны и подготовленный 3D-проект.');
+    var story = document.createElement('button');
+    story.type = 'button';
+    story.className = 'mbs-3d-cases__story';
+    story.textContent = 'Открыть историю проекта →';
+    story.addEventListener('click', function (event) { event.stopPropagation(); openStory(item); });
+    body.append(story, createProjectLink('mbs-3d-cases__project', item, 'Смотреть 3D-проект'));
+    card.append(media, body);
+    return card;
+  }
+
+  previous.addEventListener('click', function () { rail.scrollBy({ left: -carouselStep(), behavior: 'smooth' }); });
+  next.addEventListener('click', function () { rail.scrollBy({ left: carouselStep(), behavior: 'smooth' }); });
+  rail.addEventListener('scroll', updateCarouselButtons, { passive: true });
+  window.addEventListener('resize', updateCarouselButtons);
+
+  fetch(apiUrl, { cache: 'no-store', credentials: 'omit' })
+    .then(function (response) { if (!response.ok) throw new Error('public cases unavailable'); return response.json(); })
+    .then(function (payload) {
+      var cases = Array.isArray(payload) ? payload.map(normalizeCase).filter(Boolean) : [];
+      if (!cases.length) return;
+      rail.replaceChildren.apply(rail, cases.map(createCard));
+      fallback.hidden = true;
+      updateCarouselButtons();
+    })
+    .catch(function () { updateCarouselButtons(); });
+}());
 </script>
