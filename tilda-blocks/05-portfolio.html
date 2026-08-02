@@ -62,7 +62,9 @@
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
-    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
   }
   .mbs-3d-cases__rail::-webkit-scrollbar { display: none; }
   .mbs-3d-cases__card {
@@ -196,6 +198,8 @@
     color: var(--mbs-3d-ink);
     font-family: 'Mulish', sans-serif;
   }
+  .mbs-3d-cases-dialog,
+  .mbs-3d-cases-dialog * { box-sizing: border-box; }
   .mbs-3d-cases-dialog::backdrop { background: rgba(19, 31, 22, .72); }
   .mbs-3d-cases-dialog__panel { display: flex; max-height: inherit; flex-direction: column; }
   .mbs-3d-cases-dialog__header {
@@ -210,12 +214,17 @@
   .mbs-3d-cases-dialog h2 { margin: 0; font-size: clamp(28px, 4vw, 44px); line-height: 1; letter-spacing: -.045em; }
   .mbs-3d-cases-dialog__close {
     display: grid;
-    width: 46px;
-    height: 46px;
+    width: 46px !important;
+    min-width: 46px !important;
+    max-width: 46px !important;
+    height: 46px !important;
+    min-height: 46px !important;
+    max-height: 46px !important;
     flex: none;
+    padding: 0 !important;
     place-items: center;
     border: 1px solid #b6d8ab;
-    border-radius: 50%;
+    border-radius: 50% !important;
     background: #fff;
     color: #34563b;
     font-size: 34px;
@@ -259,11 +268,16 @@
     position: absolute;
     top: 50%;
     display: grid;
-    width: 50px;
-    height: 50px;
+    width: 50px !important;
+    min-width: 50px !important;
+    max-width: 50px !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    max-height: 50px !important;
+    padding: 0 !important;
     place-items: center;
     border: 0;
-    border-radius: 50%;
+    border-radius: 50% !important;
     background: rgba(255,255,255,.94);
     color: #36533b;
     font-size: 25px;
@@ -314,10 +328,17 @@
     .mbs-3d-cases-dialog__content { padding: 22px 20px; }
     .mbs-3d-cases-dialog__description { font-size: 17px; }
     .mbs-3d-cases-dialog__actions { align-items: stretch; flex-direction: column; padding: 20px; }
-    .mbs-3d-cases-dialog__links { display: grid; grid-template-columns: 1fr; }
+    .mbs-3d-cases-dialog__links { display: grid; width: 100%; min-width: 0; grid-template-columns: 1fr; }
     .mbs-3d-cases__dialog-project, .mbs-3d-cases__lead { width: 100%; }
     .mbs-3d-cases-dialog__stage { min-height: 46vh; }
-    .mbs-3d-cases-dialog__nav { width: 44px; height: 44px; }
+    .mbs-3d-cases-dialog__nav {
+      width: 44px !important;
+      min-width: 44px !important;
+      max-width: 44px !important;
+      height: 44px !important;
+      min-height: 44px !important;
+      max-height: 44px !important;
+    }
     .mbs-3d-cases-dialog__nav--previous { left: 12px; }
     .mbs-3d-cases-dialog__nav--next { right: 12px; }
   }
