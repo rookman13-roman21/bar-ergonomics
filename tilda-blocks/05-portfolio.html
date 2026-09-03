@@ -50,21 +50,10 @@
     font-size: 17px;
     line-height: 1.45;
   }
-  .mbs-3d-cases__fallback {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    flex: none;
-    padding: 12px 18px;
-    border: 1px solid #b6d8ab;
-    border-radius: 10px;
-    color: var(--mbs-3d-green) !important;
-    font-size: 14px;
-    font-weight: 800;
-    text-decoration: none !important;
+  .mbs-3d-cases__carousel {
+    position: relative;
+    width: calc(100% + max(0px, (100vw - 1200px) / 2));
   }
-  .mbs-3d-cases__fallback:hover { background: #e7f2e3; }
-  .mbs-3d-cases__carousel { position: relative; }
   .mbs-3d-cases__rail {
     display: flex;
     gap: 18px;
@@ -73,7 +62,9 @@
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
-    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
   }
   .mbs-3d-cases__rail::-webkit-scrollbar { display: none; }
   .mbs-3d-cases__card {
@@ -188,7 +179,7 @@
   .mbs-3d-cases__arrow:hover { background: #e7f2e3; }
   .mbs-3d-cases__arrow[disabled] { opacity: .35; cursor: default; }
   .mbs-3d-cases__arrow--previous { left: -24px; }
-  .mbs-3d-cases__arrow--next { right: -24px; }
+  .mbs-3d-cases__arrow--next { right: 20px; }
 
   .mbs-3d-cases-dialog {
     --mbs-3d-green: #417033;
@@ -207,6 +198,8 @@
     color: var(--mbs-3d-ink);
     font-family: 'Mulish', sans-serif;
   }
+  .mbs-3d-cases-dialog,
+  .mbs-3d-cases-dialog * { box-sizing: border-box; }
   .mbs-3d-cases-dialog::backdrop { background: rgba(19, 31, 22, .72); }
   .mbs-3d-cases-dialog__panel { display: flex; max-height: inherit; flex-direction: column; }
   .mbs-3d-cases-dialog__header {
@@ -221,12 +214,17 @@
   .mbs-3d-cases-dialog h2 { margin: 0; font-size: clamp(28px, 4vw, 44px); line-height: 1; letter-spacing: -.045em; }
   .mbs-3d-cases-dialog__close {
     display: grid;
-    width: 46px;
-    height: 46px;
+    width: 46px !important;
+    min-width: 46px !important;
+    max-width: 46px !important;
+    height: 46px !important;
+    min-height: 46px !important;
+    max-height: 46px !important;
     flex: none;
+    padding: 0 !important;
     place-items: center;
     border: 1px solid #b6d8ab;
-    border-radius: 50%;
+    border-radius: 50% !important;
     background: #fff;
     color: #34563b;
     font-size: 34px;
@@ -270,11 +268,16 @@
     position: absolute;
     top: 50%;
     display: grid;
-    width: 50px;
-    height: 50px;
+    width: 50px !important;
+    min-width: 50px !important;
+    max-width: 50px !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    max-height: 50px !important;
+    padding: 0 !important;
     place-items: center;
     border: 0;
-    border-radius: 50%;
+    border-radius: 50% !important;
     background: rgba(255,255,255,.94);
     color: #36533b;
     font-size: 25px;
@@ -325,10 +328,17 @@
     .mbs-3d-cases-dialog__content { padding: 22px 20px; }
     .mbs-3d-cases-dialog__description { font-size: 17px; }
     .mbs-3d-cases-dialog__actions { align-items: stretch; flex-direction: column; padding: 20px; }
-    .mbs-3d-cases-dialog__links { display: grid; grid-template-columns: 1fr; }
+    .mbs-3d-cases-dialog__links { display: grid; width: 100%; min-width: 0; grid-template-columns: 1fr; }
     .mbs-3d-cases__dialog-project, .mbs-3d-cases__lead { width: 100%; }
     .mbs-3d-cases-dialog__stage { min-height: 46vh; }
-    .mbs-3d-cases-dialog__nav { width: 44px; height: 44px; }
+    .mbs-3d-cases-dialog__nav {
+      width: 44px !important;
+      min-width: 44px !important;
+      max-width: 44px !important;
+      height: 44px !important;
+      min-height: 44px !important;
+      max-height: 44px !important;
+    }
     .mbs-3d-cases-dialog__nav--previous { left: 12px; }
     .mbs-3d-cases-dialog__nav--next { right: 12px; }
   }
@@ -339,7 +349,6 @@
   id="cases"
   data-cases-api="https://drawings.barista-school.ru/api/public/cases"
   data-viewer-origin="https://drawings.barista-school.ru"
-  data-lead-url="https://barengineering.bitrix24site.ru/Bar/"
 >
   <div class="mbs-3d-cases__wrap">
     <div class="mbs-3d-cases__header">
@@ -348,7 +357,6 @@
         <h2 class="mbs-3d-cases__title">Посмотрите барные зоны в 3D</h2>
         <p class="mbs-3d-cases__subtitle">Откройте историю проекта, посмотрите визуализацию и пройдитесь по подготовленному бару.</p>
       </div>
-      <a class="mbs-3d-cases__fallback" href="https://drawings.barista-school.ru/#publicCases" target="_blank" rel="noopener">Все 3D-проекты →</a>
     </div>
     <div class="mbs-3d-cases__carousel" aria-label="3D-проекты барной эргономики">
       <button class="mbs-3d-cases__arrow mbs-3d-cases__arrow--previous" type="button" aria-label="Предыдущий проект" disabled>←</button>
@@ -366,11 +374,9 @@
 
   var apiUrl = section.dataset.casesApi;
   var viewerOrigin = section.dataset.viewerOrigin;
-  var leadUrl = section.dataset.leadUrl;
   var rail = section.querySelector('.mbs-3d-cases__rail');
   var previous = section.querySelector('.mbs-3d-cases__arrow--previous');
   var next = section.querySelector('.mbs-3d-cases__arrow--next');
-  var fallback = section.querySelector('.mbs-3d-cases__fallback');
   var assetPath = /^\/api\/public\/case-assets\/[a-f0-9]{64}\.(?:webp|jpe?g)$/u;
   var tokenPattern = /^[A-Za-z0-9_-]{20,64}$/u;
   var dialog;
@@ -440,14 +446,6 @@
     return link;
   }
 
-  function openLeadUrl(item) {
-    var url = new URL(leadUrl);
-    url.searchParams.set('utm_source', 'baristaschool');
-    url.searchParams.set('utm_medium', 'case_popup');
-    url.searchParams.set('utm_campaign', item.name);
-    return url.href;
-  }
-
   function lockBackground() {
     if (lockedScrollY !== null) return;
     lockedScrollY = window.scrollY;
@@ -486,6 +484,33 @@
     return dialog;
   }
 
+  function showGalleryImage(index) {
+    if (!dialogState || dialogState.screen !== 'gallery') return;
+    var images = dialogState.groups[dialogState.group] || [];
+    if (!images.length) return;
+    var nextIndex = Math.max(0, Math.min(index, images.length - 1));
+    if (nextIndex === dialogState.index) return;
+    dialogState.index = nextIndex;
+    renderDialog();
+  }
+
+  document.addEventListener('keydown', function (event) {
+    if (!dialog || !dialog.open || !dialogState) return;
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      dialog.close();
+      return;
+    }
+    if (dialogState.screen !== 'gallery') return;
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      showGalleryImage(dialogState.index - 1);
+    } else if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      showGalleryImage(dialogState.index + 1);
+    }
+  }, true);
+
   function renderActions(panel, item) {
     var actions = document.createElement('footer');
     actions.className = 'mbs-3d-cases-dialog__actions';
@@ -497,10 +522,9 @@
     links.appendChild(createProjectLink('mbs-3d-cases__dialog-project', item, 'Смотреть 3D-проект'));
     var lead = document.createElement('a');
     lead.className = 'mbs-3d-cases__lead';
-    lead.href = openLeadUrl(item);
-    lead.target = '_blank';
-    lead.rel = 'noopener';
+    lead.href = '#consalt';
     lead.textContent = 'Оставить заявку';
+    lead.addEventListener('click', function () { dialog.close(); });
     links.appendChild(lead);
     actions.append(copy, links);
     panel.appendChild(actions);
@@ -564,9 +588,8 @@
     appendText(content, 'h3', 'mbs-3d-cases-dialog__gallery-title', title);
     var stage = document.createElement('div');
     stage.className = 'mbs-3d-cases-dialog__stage';
-    var show = function (index) { dialogState.index = Math.max(0, Math.min(index, images.length - 1)); renderDialog(); };
-    var before = function () { show(dialogState.index - 1); };
-    var after = function () { show(dialogState.index + 1); };
+    var before = function () { showGalleryImage(dialogState.index - 1); };
+    var after = function () { showGalleryImage(dialogState.index + 1); };
     var previousButton = document.createElement('button');
     previousButton.type = 'button';
     previousButton.className = 'mbs-3d-cases-dialog__nav mbs-3d-cases-dialog__nav--previous';
@@ -672,7 +695,6 @@
       var cases = Array.isArray(payload) ? payload.map(normalizeCase).filter(Boolean) : [];
       if (!cases.length) return;
       rail.replaceChildren.apply(rail, cases.map(createCard));
-      fallback.hidden = true;
       updateCarouselButtons();
     })
     .catch(function () { updateCarouselButtons(); });
